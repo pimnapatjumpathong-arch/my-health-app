@@ -88,7 +88,7 @@
           </div>
           <div>
             <h1 class="font-bold text-lg leading-tight drop-shadow-sm">PIM'S FIT</h1>
-            <p class="text-xs text-blue-100 font-normal">เป้าหมายลดน้ำหนัก Day 12</p>
+            <p class="text-xs text-blue-100 font-normal">เป้าหมายลดน้ำหนัก</p>
           </div>
         </div>
         
@@ -143,7 +143,7 @@
                 <span id="current-kcal" class="text-4xl font-extrabold text-slate-800 tracking-tight">0</span>
                 <span class="text-slate-400 font-semibold text-lg">/ <span id="target-kcal">1,400</span></span>
               </div>
-              <p class="text-xs text-slate-400 font-medium">kcal / day (TDEE: <span id="tdee-val-display">1,900</span>)</p>
+              <p class="text-xs text-slate-400 font-medium">kcal / day (TDEE: <span id="tdee-val-display">0</span>)</p>
             </div>
 
             <div class="relative w-16 h-16 flex items-center justify-center">
@@ -165,11 +165,11 @@
                 <span class="text-lg">🍗</span>
                 <div>
                   <div class="text-xs text-slate-500 font-medium">Protein</div>
-                  <div class="text-xs text-slate-400"><span id="p-curr">0</span> / <span id="p-target">134</span>g</div>
+                  <div class="text-xs text-slate-400"><span id="p-curr">0</span> / <span id="p-target">100</span>g</div>
                 </div>
               </div>
               <span class="font-extrabold text-xs bg-sky-100/80 px-3 py-1 rounded-full text-sky-800">
-                <span id="p-rem">134</span>g เหลือ
+                <span id="p-rem">100</span>g เหลือ
               </span>
             </div>
 
@@ -179,11 +179,11 @@
                 <span class="text-lg">🌾</span>
                 <div>
                   <div class="text-xs text-slate-500 font-medium">Carbs</div>
-                  <div class="text-xs text-slate-400"><span id="c-curr">0</span> / <span id="c-target">95</span>g</div>
+                  <div class="text-xs text-slate-400"><span id="c-curr">0</span> / <span id="c-target">150</span>g</div>
                 </div>
               </div>
               <span class="font-extrabold text-xs bg-amber-100/80 px-3 py-1 rounded-full text-amber-800">
-                <span id="c-rem">95</span>g เหลือ
+                <span id="c-rem">150</span>g เหลือ
               </span>
             </div>
 
@@ -193,11 +193,11 @@
                 <span class="text-lg">🥑</span>
                 <div>
                   <div class="text-xs text-slate-500 font-medium">Fat</div>
-                  <div class="text-xs text-slate-400"><span id="f-curr">0</span> / <span id="f-target">54</span>g</div>
+                  <div class="text-xs text-slate-400"><span id="f-curr">0</span> / <span id="f-target">45</span>g</div>
                 </div>
               </div>
               <span class="font-extrabold text-xs bg-rose-100/80 px-3 py-1 rounded-full text-rose-800">
-                <span id="f-rem">54</span>g เหลือ
+                <span id="f-rem">45</span>g เหลือ
               </span>
             </div>
           </div>
@@ -213,7 +213,7 @@
               <h3 class="font-bold text-slate-800 text-xs">Weekly Calorie Bank (ธนาคารแคล)</h3>
             </div>
             <span id="bank-status-tag" class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
-              เหลือเก็บ +250 kcal
+              เหลือเก็บ +0 kcal
             </span>
           </div>
           <p class="text-[11px] text-slate-400 mb-2">ช่วยให้กินเกินในบางวันได้ โดยดูภาพรวมแคลอรีสะสมทั้งสัปดาห์</p>
@@ -232,7 +232,7 @@
               </div>
               <div>
                 <h3 class="font-bold text-slate-800 text-xs">บันทึกการดื่มน้ำ</h3>
-                <p class="text-[10px] text-slate-400"><span id="water-curr">1250</span> / <span id="water-target">2000</span> ml</p>
+                <p class="text-[10px] text-slate-400"><span id="water-curr">0</span> / <span id="water-target">2000</span> ml</p>
               </div>
             </div>
             <div class="flex gap-1.5">
@@ -245,7 +245,7 @@
             </div>
           </div>
           <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden mt-1">
-            <div id="water-progress-bar" class="bg-sky-400 h-full rounded-full transition-all duration-300" style="width: 62%;"></div>
+            <div id="water-progress-bar" class="bg-sky-400 h-full rounded-full transition-all duration-300" style="width: 0%;"></div>
           </div>
         </div>
 
@@ -262,7 +262,7 @@
                   กำลังอดอาหาร
                 </span>
               </div>
-              <p id="fasting-timer-text" class="text-xs text-slate-300 font-mono mt-0.5">เหลืออีก 04:25:10 ชม.</p>
+              <p id="fasting-timer-text" class="text-xs text-slate-300 font-mono mt-0.5">นับเวลาอดอาหาร</p>
             </div>
           </div>
           <button onclick="toggleFasting()" id="btn-fasting-toggle" class="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold transition border border-white/20">
@@ -315,7 +315,7 @@
                 <i class="fa-solid fa-weight-scale text-purple-400"></i>
               </div>
               <div class="flex items-baseline gap-1">
-                <span id="dash-weight-val" class="text-2xl font-bold text-slate-800">54.5</span>
+                <span id="dash-weight-val" class="text-2xl font-bold text-slate-800">--</span>
                 <span class="text-xs text-slate-400 font-medium">kg</span>
               </div>
             </div>
@@ -332,7 +332,7 @@
                 <i class="fa-solid fa-shoe-prints text-emerald-500"></i>
               </div>
               <div class="flex items-baseline gap-1">
-                <span id="dash-steps-val" class="text-2xl font-bold text-slate-800">6,420</span>
+                <span id="dash-steps-val" class="text-2xl font-bold text-slate-800">0</span>
                 <span class="text-[10px] text-slate-400 font-medium">ก้าว</span>
               </div>
             </div>
@@ -367,7 +367,7 @@
           </div>
 
           <div id="templates-list-container" class="space-y-3">
-            <!-- Rendered by JS (Full Body A, B, C) -->
+            <!-- Rendered by JS -->
           </div>
         </div>
 
@@ -439,9 +439,9 @@
           </div>
 
           <div>
-            <h3 id="res-food-name" class="font-bold text-lg text-slate-800">ข้าวมันไก่ต้ม</h3>
+            <h3 id="res-food-name" class="font-bold text-lg text-slate-800">อาหารตามรูปถ่าย</h3>
             <div class="flex items-baseline gap-1 mt-0.5">
-              <span id="res-food-kcal" class="text-3xl font-extrabold text-blue-600">590</span>
+              <span id="res-food-kcal" class="text-3xl font-extrabold text-blue-600">450</span>
               <span class="text-xs font-semibold text-slate-400">kcal</span>
             </div>
           </div>
@@ -449,15 +449,15 @@
           <div class="grid grid-cols-3 gap-2 py-1">
             <div class="bg-sky-50 p-2.5 rounded-2xl text-center">
               <div class="text-[10px] font-semibold text-slate-400">โปรตีน</div>
-              <div class="font-extrabold text-sky-600 text-sm mt-0.5"><span id="res-food-p">28</span>g</div>
+              <div class="font-extrabold text-sky-600 text-sm mt-0.5"><span id="res-food-p">25</span>g</div>
             </div>
             <div class="bg-amber-50 p-2.5 rounded-2xl text-center">
               <div class="text-[10px] font-semibold text-slate-400">คาร์บ</div>
-              <div class="font-extrabold text-amber-600 text-sm mt-0.5"><span id="res-food-c">65</span>g</div>
+              <div class="font-extrabold text-amber-600 text-sm mt-0.5"><span id="res-food-c">50</span>g</div>
             </div>
             <div class="bg-rose-50 p-2.5 rounded-2xl text-center">
               <div class="text-[10px] font-semibold text-slate-400">ไขมัน</div>
-              <div class="font-extrabold text-rose-600 text-sm mt-0.5"><span id="res-food-f">22</span>g</div>
+              <div class="font-extrabold text-rose-600 text-sm mt-0.5"><span id="res-food-f">15</span>g</div>
             </div>
           </div>
 
@@ -503,11 +503,11 @@
           <div class="flex items-baseline justify-between pt-1">
             <div>
               <p class="text-xs text-slate-400">ปัจจุบัน</p>
-              <p class="text-2xl font-extrabold text-slate-800"><span id="analytics-curr-weight">54.5</span> <span class="text-xs text-slate-400 font-normal">kg</span></p>
+              <p class="text-2xl font-extrabold text-slate-800"><span id="analytics-curr-weight">--</span> <span class="text-xs text-slate-400 font-normal">kg</span></p>
             </div>
             <div class="text-right">
               <p class="text-xs text-slate-400">เป้าหมาย</p>
-              <p class="text-2xl font-extrabold text-purple-600"><span id="analytics-target-weight">52.0</span> <span class="text-xs text-slate-400 font-normal">kg</span></p>
+              <p class="text-2xl font-extrabold text-purple-600"><span id="analytics-target-weight">50.0</span> <span class="text-xs text-slate-400 font-normal">kg</span></p>
             </div>
           </div>
 
@@ -530,16 +530,36 @@
           <div class="grid grid-cols-3 gap-2 pt-1 text-center">
             <div class="bg-slate-50 p-2.5 rounded-2xl">
               <p class="text-[10px] text-slate-400 font-medium">รอบเอว</p>
-              <p class="text-base font-bold text-slate-800 mt-0.5"><span id="measure-waist">26.5</span>"</p>
+              <p class="text-base font-bold text-slate-800 mt-0.5"><span id="measure-waist">--</span>"</p>
             </div>
             <div class="bg-slate-50 p-2.5 rounded-2xl">
               <p class="text-[10px] text-slate-400 font-medium">สะโพก</p>
-              <p class="text-base font-bold text-slate-800 mt-0.5"><span id="measure-hips">35.0</span>"</p>
+              <p class="text-base font-bold text-slate-800 mt-0.5"><span id="measure-hips">--</span>"</p>
             </div>
             <div class="bg-slate-50 p-2.5 rounded-2xl">
               <p class="text-[10px] text-slate-400 font-medium">ต้นขา</p>
-              <p class="text-base font-bold text-slate-800 mt-0.5"><span id="measure-thighs">20.5</span>"</p>
+              <p class="text-base font-bold text-slate-800 mt-0.5"><span id="measure-thighs">--</span>"</p>
             </div>
+          </div>
+        </div>
+
+        <!-- Monthly Food Log Calendar View -->
+        <div class="bg-white rounded-3xl p-5 soft-card border border-slate-100/80 space-y-3">
+          <div class="flex justify-between items-center">
+            <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+              <i class="fa-solid fa-calendar-days text-blue-500"></i> ปฏิทินบันทึกอาหารรายเดือน
+            </h3>
+            <span class="text-[10px] text-slate-400 font-medium" id="monthly-log-title">ประวัติการกิน</span>
+          </div>
+
+          <!-- Calendar Grid -->
+          <div id="monthly-food-calendar" class="grid grid-cols-7 gap-1 text-center text-xs">
+            <!-- Rendered by JS -->
+          </div>
+
+          <!-- Selected Day Food Details -->
+          <div id="selected-day-food-detail" class="bg-slate-50 p-3 rounded-2xl border border-slate-200 mt-2 space-y-2">
+            <p class="text-center text-xs text-slate-400 py-2">แตะวันที่ในปฏิทินเพื่อดูประวัติการกินย้อนหลัง</p>
           </div>
         </div>
 
@@ -593,31 +613,31 @@
           <div class="grid grid-cols-2 gap-3">
             <div>
               <label class="text-xs font-semibold text-slate-600">เพศ</label>
-              <select id="calc-gender" class="w-full mt-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium">
-                <option value="female">หญิง (Female)</option>
+              <select id="calc-gender" onchange="calculateLiveTdee()" class="w-full mt-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium">
+                <option value="female" selected>หญิง (Female)</option>
                 <option value="male">ชาย (Male)</option>
               </select>
             </div>
             <div>
               <label class="text-xs font-semibold text-slate-600">อายุ (ปี)</label>
-              <input type="number" id="calc-age" value="26" class="w-full mt-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800">
+              <input type="number" id="calc-age" value="25" class="w-full mt-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800">
             </div>
           </div>
 
           <div class="grid grid-cols-2 gap-3">
             <div>
               <label class="text-xs font-semibold text-slate-600">ส่วนสูง (cm)</label>
-              <input type="number" id="calc-height" value="162" class="w-full mt-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800">
+              <input type="number" id="calc-height" value="160" class="w-full mt-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800">
             </div>
             <div>
               <label class="text-xs font-semibold text-slate-600">น้ำหนักปัจจุบัน (kg)</label>
-              <input type="number" id="calc-weight" value="54.5" class="w-full mt-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800">
+              <input type="number" id="calc-weight" value="50" class="w-full mt-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800">
             </div>
           </div>
 
           <div>
             <label class="text-xs font-semibold text-slate-600">ระดับการออกกำลังกาย</label>
-            <select id="calc-activity" class="w-full mt-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium">
+            <select id="calc-activity" onchange="calculateLiveTdee()" class="w-full mt-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium">
               <option value="1.2">นั่งทำงานอยู่กับที่ (Sedentary)</option>
               <option value="1.375" selected>ออกกำลังกายเบาๆ 1-3 วัน/สัปดาห์</option>
               <option value="1.55">ออกกำลังกายปานกลาง 3-5 วัน/สัปดาห์</option>
@@ -627,7 +647,7 @@
 
           <div>
             <label class="text-xs font-semibold text-slate-600">เป้าหมายของคุณ</label>
-            <select id="calc-goal" class="w-full mt-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium">
+            <select id="calc-goal" onchange="calculateLiveTdee()" class="w-full mt-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium">
               <option value="lose" selected>ลดน้ำหนัก (-500 kcal/วัน)</option>
               <option value="maintain">คงน้ำหนักเดิม (Maintain)</option>
               <option value="gain">เพิ่มกล้ามเนื้อ (+300 kcal/วัน)</option>
@@ -638,21 +658,77 @@
           <div class="bg-blue-50/70 p-3 rounded-2xl border border-blue-100 space-y-1.5 text-xs">
             <div class="flex justify-between text-slate-600">
               <span>BMR (พลังงานพื้นฐาน):</span>
-              <span id="preview-bmr" class="font-bold">1,310 kcal</span>
+              <span id="preview-bmr" class="font-bold">0 kcal</span>
             </div>
             <div class="flex justify-between text-slate-600">
               <span>TDEE (เผาผลาญรวมต่อวัน):</span>
-              <span id="preview-tdee" class="font-bold">1,800 kcal</span>
+              <span id="preview-tdee" class="font-bold">0 kcal</span>
             </div>
             <div class="flex justify-between text-blue-700 font-bold border-t border-blue-100 pt-1">
               <span>เป้าหมายแคลอรีที่แนะนำ:</span>
-              <span id="preview-target" class="text-sm">1,300 kcal</span>
+              <span id="preview-target" class="text-sm">0 kcal</span>
             </div>
           </div>
         </div>
 
         <button onclick="applyTdeeSettings()" class="w-full py-3 bg-blue-500 text-white font-bold rounded-2xl text-sm hover:bg-blue-600 transition shadow-md glow-btn">
           อัปเดตเป้าหมายแผนโภชนาการ
+        </button>
+
+        <button onclick="resetAllDataDataConfirm()" class="w-full py-2 bg-rose-50 text-rose-600 font-bold rounded-2xl text-xs hover:bg-rose-100 transition border border-rose-100">
+          ⚠️ ล้างข้อมูลทั้งหมด (เริ่มนับ 1 ใหม่)
+        </button>
+      </div>
+    </div>
+
+    <!-- Steps Log Modal -->
+    <div id="modal-steps" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+      <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-6 space-y-4">
+        <div class="flex justify-between items-center">
+          <h3 class="font-bold text-slate-800 text-base">บันทึกก้าวเดินวันนี้</h3>
+          <button onclick="closeModal('modal-steps')" class="text-slate-400 hover:text-slate-600">
+            <i class="fa-solid fa-xmark text-lg"></i>
+          </button>
+        </div>
+
+        <div>
+          <label class="text-xs font-semibold text-slate-600">จำนวนก้าวเดิน (ก้าว)</label>
+          <input type="number" id="input-steps-val" placeholder="เช่น 6000" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-lg font-bold text-slate-800 focus:outline-none focus:border-emerald-500 text-center">
+        </div>
+
+        <button onclick="saveStepsLog()" class="w-full py-3 bg-emerald-500 text-white font-bold rounded-2xl text-sm hover:bg-emerald-600 transition shadow-md">
+          บันทึกก้าวเดิน
+        </button>
+      </div>
+    </div>
+
+    <!-- Body Measurements Modal -->
+    <div id="modal-measure" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+      <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-6 space-y-4">
+        <div class="flex justify-between items-center">
+          <h3 class="font-bold text-slate-800 text-base">บันทึกสัดส่วนร่างกาย (นิ้ว)</h3>
+          <button onclick="closeModal('modal-measure')" class="text-slate-400 hover:text-slate-600">
+            <i class="fa-solid fa-xmark text-lg"></i>
+          </button>
+        </div>
+
+        <div class="space-y-3">
+          <div>
+            <label class="text-xs font-semibold text-slate-600">รอบเอว (นิ้ว)</label>
+            <input type="number" step="0.1" id="input-waist-val" placeholder="26.5" class="w-full mt-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800">
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-slate-600">สะโพก (นิ้ว)</label>
+            <input type="number" step="0.1" id="input-hips-val" placeholder="35.0" class="w-full mt-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800">
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-slate-600">ต้นขา (นิ้ว)</label>
+            <input type="number" step="0.1" id="input-thighs-val" placeholder="20.5" class="w-full mt-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800">
+          </div>
+        </div>
+
+        <button onclick="saveBodyMeasurements()" class="w-full py-3 bg-indigo-500 text-white font-bold rounded-2xl text-sm hover:bg-indigo-600 transition shadow-md">
+          บันทึกสัดส่วน
         </button>
       </div>
     </div>
@@ -712,7 +788,7 @@
 
         <div>
           <label class="text-xs font-semibold text-slate-600">น้ำหนักปัจจุบัน (kg)</label>
-          <input type="number" step="0.1" id="input-weight-val" placeholder="54.5" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-lg font-bold text-slate-800 focus:outline-none focus:border-purple-500 text-center">
+          <input type="number" step="0.1" id="input-weight-val" placeholder="50.0" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-lg font-bold text-slate-800 focus:outline-none focus:border-purple-500 text-center">
         </div>
 
         <button onclick="saveWeightLog()" class="w-full py-3 bg-purple-500 text-white font-bold rounded-2xl text-sm hover:bg-purple-600 transition shadow-md">
@@ -789,67 +865,26 @@
     // App State & LocalStorage Persistence
     let TARGETS = JSON.parse(localStorage.getItem('ginfit_targets')) || {
       kcal: 1400,
-      protein: 134,
-      carbs: 95,
-      fat: 54,
+      protein: 100,
+      carbs: 150,
+      fat: 45,
       water: 2000
     };
 
-    let workoutTemplates = JSON.parse(localStorage.getItem('ginfit_templates')) || [
-      {
-        id: 'tpl-a',
-        name: 'Full Body A (เน้นขา & อก)',
-        tag: 'ขา / อก / หลัง / หน้าท้อง',
-        exercises: [
-          { name: 'Barbell Squat', sets: 4, reps: '8-10', weight: '35 kg' },
-          { name: 'DB Bench Press', sets: 3, reps: '10-12', weight: '10 kg/ข้าง' },
-          { name: 'Lat Pulldown', sets: 3, reps: '12', weight: '25 kg' },
-          { name: 'Leg Raise', sets: 3, reps: '15', weight: 'Bodyweight' }
-        ]
-      },
-      {
-        id: 'tpl-b',
-        name: 'Full Body B (เน้นหลัง & ไหล่)',
-        tag: 'หลัง / ไหล่ / ขาเดี่ยว',
-        exercises: [
-          { name: 'Romanian Deadlift', sets: 4, reps: '8-10', weight: '30 kg' },
-          { name: 'Overhead Press', sets: 3, reps: '10-12', weight: '8 kg/ข้าง' },
-          { name: 'Seated Cable Row', sets: 3, reps: '12', weight: '20 kg' },
-          { name: 'Dumbbell Lunges', sets: 3, reps: '12', weight: '6 kg/ข้าง' }
-        ]
-      },
-      {
-        id: 'tpl-c',
-        name: 'Full Body C (แขน & คาร์ดิโอ)',
-        tag: 'แขน / คาร์ดิโอเผาผลาญ',
-        exercises: [
-          { name: 'Push-ups', sets: 3, reps: 'Max', weight: 'Bodyweight' },
-          { name: 'Dumbbell Bicep Curls', sets: 3, reps: '12', weight: '5 kg' },
-          { name: 'Tricep Rope Pushdown', sets: 3, reps: '15', weight: '15 kg' },
-          { name: 'Incline Treadmill Walk', sets: 1, reps: '30 นาที', weight: 'ความชัน 10 / ความเร็ว 4.5' }
-        ]
-      }
-    ];
+    let workoutTemplates = JSON.parse(localStorage.getItem('ginfit_templates')) || [];
 
-    let calendarAssignments = JSON.parse(localStorage.getItem('ginfit_calendar')) || {
-      'Mon': 'tpl-a',
-      'Wed': 'tpl-b',
-      'Fri': 'tpl-c'
-    };
+    let calendarAssignments = JSON.parse(localStorage.getItem('ginfit_calendar')) || {};
 
     let state = JSON.parse(localStorage.getItem('ginfit_state')) || {
-      foodLogs: [
-        { id: 1, time: '08:30', name: 'แซนด์วิชทูน่า + กาแฟดำ', kcal: 280, p: 22, c: 30, f: 6 },
-        { id: 2, time: '12:15', name: 'ข้าวอกไก่ย่างผักต้ม', kcal: 420, p: 38, c: 45, f: 8 }
-      ],
-      currentWeight: 54.5,
-      targetWeight: 52.0,
-      waterIntake: 1250,
-      dailySteps: 6420,
+      foodLogsByDate: {}, // Format: { 'YYYY-MM-DD': [ { id, time, name, kcal, p, c, f } ] }
+      currentWeight: null,
+      targetWeight: 50.0,
+      waterIntake: 0,
+      dailySteps: 0,
       isFasting: true,
-      measurements: { waist: 26.5, hips: 35.0, thighs: 20.5 },
-      weeklyKcalBank: [1350, 1420, 1380, 1290, 1400, 1450, 700],
-      weightHistory: [55.8, 55.4, 55.1, 54.9, 54.7, 54.6, 54.5],
+      measurements: { waist: '--', hips: '--', thighs: '--' },
+      weeklyKcalBank: [0, 0, 0, 0, 0, 0, 0],
+      weightHistory: [],
       selectedCalendarDay: 'Mon'
     };
 
@@ -862,12 +897,32 @@
 
     let weightChart = null;
 
+    function getTodayKey() {
+      const d = new Date();
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    }
+
+    function getTodayFoodLogs() {
+      const key = getTodayKey();
+      if (!state.foodLogsByDate[key]) {
+        state.foodLogsByDate[key] = [];
+      }
+      return state.foodLogsByDate[key];
+    }
+
     window.onload = function() {
+      // Bind live input listeners for TDEE calculation
+      ['calc-age', 'calc-height', 'calc-weight'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('input', calculateLiveTdee);
+      });
+
       renderDashboard();
       renderFoodLogs();
       renderWeeklyBank();
       renderWorkoutTemplates();
       renderCalendarGrid();
+      renderMonthlyFoodCalendar();
       initChart();
       calculateLiveTdee();
     };
@@ -877,6 +932,13 @@
       localStorage.setItem('ginfit_templates', JSON.stringify(workoutTemplates));
       localStorage.setItem('ginfit_calendar', JSON.stringify(calendarAssignments));
       localStorage.setItem('ginfit_state', JSON.stringify(state));
+    }
+
+    function resetAllDataDataConfirm() {
+      if (confirm('คุณต้องการล้างข้อมูลทั้งหมดแล้วเริ่มใหม่ใช่หรือไม่?')) {
+        localStorage.clear();
+        location.reload();
+      }
     }
 
     function switchTab(tabId) {
@@ -895,6 +957,7 @@
       }
 
       if (tabId === 'analytics') {
+        renderMonthlyFoodCalendar();
         setTimeout(() => { if (weightChart) weightChart.update(); }, 100);
       }
     }
@@ -921,9 +984,9 @@
     // TDEE & Goal Calculation Formula
     function calculateLiveTdee() {
       const gender = document.getElementById('calc-gender').value;
-      const age = parseFloat(document.getElementById('calc-age').value) || 26;
-      const height = parseFloat(document.getElementById('calc-height').value) || 162;
-      const weight = parseFloat(document.getElementById('calc-weight').value) || 54.5;
+      const age = parseFloat(document.getElementById('calc-age').value) || 25;
+      const height = parseFloat(document.getElementById('calc-height').value) || 160;
+      const weight = parseFloat(document.getElementById('calc-weight').value) || 50;
       const activity = parseFloat(document.getElementById('calc-activity').value) || 1.375;
       const goal = document.getElementById('calc-goal').value;
 
@@ -947,7 +1010,7 @@
     function applyTdeeSettings() {
       const res = calculateLiveTdee();
       TARGETS.kcal = res.targetKcal;
-      TARGETS.protein = Math.round(res.weight * 2.2);
+      TARGETS.protein = Math.round(res.weight * 2.0);
       TARGETS.fat = Math.round((res.targetKcal * 0.25) / 9);
       TARGETS.carbs = Math.round((res.targetKcal - (TARGETS.protein * 4) - (TARGETS.fat * 9)) / 4);
 
@@ -958,7 +1021,8 @@
     }
 
     function renderDashboard() {
-      let totals = state.foodLogs.reduce((acc, item) => {
+      const todayLogs = getTodayFoodLogs();
+      let totals = todayLogs.reduce((acc, item) => {
         acc.kcal += item.kcal;
         acc.p += item.p;
         acc.c += item.c;
@@ -995,18 +1059,18 @@
       document.getElementById('dash-steps-val').innerText = state.dailySteps.toLocaleString();
 
       // Weight & Analytics
-      document.getElementById('dash-weight-val').innerText = state.currentWeight;
-      document.getElementById('analytics-curr-weight').innerText = state.currentWeight;
+      document.getElementById('dash-weight-val').innerText = state.currentWeight || '--';
+      document.getElementById('analytics-curr-weight').innerText = state.currentWeight || '--';
       document.getElementById('measure-waist').innerText = state.measurements.waist;
       document.getElementById('measure-hips').innerText = state.measurements.hips;
       document.getElementById('measure-thighs').innerText = state.measurements.thighs;
 
       // Dashboard mini food list
       const dashFoodList = document.getElementById('dashboard-food-list');
-      if (state.foodLogs.length === 0) {
+      if (todayLogs.length === 0) {
         dashFoodList.innerHTML = `<p class="text-xs text-slate-400 text-center py-2">ยังไม่มีการบันทึกอาหารวันนี้</p>`;
       } else {
-        dashFoodList.innerHTML = state.foodLogs.slice(-3).reverse().map(item => `
+        dashFoodList.innerHTML = todayLogs.slice(-3).reverse().map(item => `
           <div class="flex items-center justify-between p-2 bg-slate-50 rounded-2xl text-xs">
             <div class="flex items-center gap-2">
               <span class="text-slate-400 text-[10px] font-mono">${item.time}</span>
@@ -1038,7 +1102,7 @@
 
       const barsContainer = document.getElementById('weekly-bank-bars');
       barsContainer.innerHTML = state.weeklyKcalBank.map((kcal, idx) => {
-        const heightPct = Math.min(100, Math.round((kcal / TARGETS.kcal) * 100));
+        const heightPct = TARGETS.kcal > 0 ? Math.min(100, Math.round((kcal / TARGETS.kcal) * 100)) : 0;
         const isOver = kcal > TARGETS.kcal;
         const barColor = isOver ? 'bg-rose-400' : 'bg-blue-400';
         return `
@@ -1055,6 +1119,11 @@
     // Workout Planner Rendering
     function renderWorkoutTemplates() {
       const container = document.getElementById('templates-list-container');
+      if (workoutTemplates.length === 0) {
+        container.innerHTML = `<div class="text-center py-8 text-slate-400 text-xs bg-white rounded-3xl p-4 border border-slate-100">ยังไม่มีโปรแกรมออกกำลังกาย กดสร้าง Routine ใหม่ด้านบนได้เลย!</div>`;
+        return;
+      }
+
       container.innerHTML = workoutTemplates.map(tpl => `
         <div class="bg-white rounded-3xl p-4 soft-card border border-slate-100 space-y-2">
           <div class="flex justify-between items-start">
@@ -1062,7 +1131,11 @@
               <h3 class="font-bold text-slate-800 text-sm">${tpl.name}</h3>
               <span class="text-[10px] text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full font-medium mt-1 inline-block">${tpl.tag}</span>
             </div>
-            <span class="text-xs font-bold text-slate-400">${tpl.exercises.length} ท่า</span>
+            <div class="flex items-center gap-2">
+              <button onclick="deleteWorkoutTemplate('${tpl.id}')" class="text-rose-400 hover:text-rose-600 p-1 text-xs" title="ลบโปรแกรมนี้">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </div>
           </div>
 
           <div class="space-y-1.5 pt-1">
@@ -1075,6 +1148,18 @@
           </div>
         </div>
       `).join('');
+    }
+
+    function deleteWorkoutTemplate(tplId) {
+      if (confirm('คุณต้องการลบโปรแกรมออกกำลังกายนี้ใช่หรือไม่?')) {
+        workoutTemplates = workoutTemplates.filter(t => t.id !== tplId);
+        Object.keys(calendarAssignments).forEach(day => {
+          if (calendarAssignments[day] === tplId) delete calendarAssignments[day];
+        });
+        saveAllState();
+        renderWorkoutTemplates();
+        renderCalendarGrid();
+      }
     }
 
     function renderCalendarGrid() {
@@ -1174,19 +1259,23 @@
       document.getElementById('assign-day-name').innerText = `(${dayCode})`;
       const optionsContainer = document.getElementById('assign-routine-options');
 
-      optionsContainer.innerHTML = workoutTemplates.map(tpl => `
-        <button onclick="assignTemplateToDay('${tpl.id}')" class="w-full p-3 bg-slate-50 hover:bg-blue-50 border border-slate-200 hover:border-blue-300 rounded-2xl text-left transition flex justify-between items-center">
-          <div>
-            <p class="font-bold text-xs text-slate-800">${tpl.name}</p>
-            <p class="text-[10px] text-slate-400 mt-0.5">${tpl.exercises.length} ท่าซ้อม</p>
-          </div>
-          <i class="fa-solid fa-chevron-right text-xs text-slate-400"></i>
-        </button>
-      `).join('') + `
-        <button onclick="assignTemplateToDay(null)" class="w-full p-3 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-2xl text-xs font-bold text-center transition mt-2">
-          ยกเลิกโปรแกรมวันเปิดพัก
-        </button>
-      `;
+      if (workoutTemplates.length === 0) {
+        optionsContainer.innerHTML = `<p class="text-xs text-slate-400 text-center py-4">โปรดสร้าง Routine ออกกำลังกายก่อนดึงมาวางตาราง</p>`;
+      } else {
+        optionsContainer.innerHTML = workoutTemplates.map(tpl => `
+          <button onclick="assignTemplateToDay('${tpl.id}')" class="w-full p-3 bg-slate-50 hover:bg-blue-50 border border-slate-200 hover:border-blue-300 rounded-2xl text-left transition flex justify-between items-center">
+            <div>
+              <p class="font-bold text-xs text-slate-800">${tpl.name}</p>
+              <p class="text-[10px] text-slate-400 mt-0.5">${tpl.exercises.length} ท่าซ้อม</p>
+            </div>
+            <i class="fa-solid fa-chevron-right text-xs text-slate-400"></i>
+          </button>
+        `).join('') + `
+          <button onclick="assignTemplateToDay(null)" class="w-full p-3 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-2xl text-xs font-bold text-center transition mt-2">
+            ยกเลิกโปรแกรมวันเปิดพัก
+          </button>
+        `;
+      }
 
       document.getElementById('modal-assign-routine').classList.remove('hidden');
     }
@@ -1198,7 +1287,6 @@
       const container = document.getElementById('exercise-rows-container');
       container.innerHTML = '';
       addExerciseRow('Barbell Squat', 4, '8-10', '30 kg');
-      addExerciseRow('Dumbbell Press', 3, '10-12', '12 kg');
       document.getElementById('modal-create-routine').classList.remove('hidden');
     }
 
@@ -1304,16 +1392,22 @@
     }
 
     function cloneYesterdayMeals() {
-      const yesterdayMock = [
-        { name: 'กาแฟดำ (Non-sugar)', kcal: 15, p: 0, c: 2, f: 0 },
-        { name: 'อกไก่นุ่ม + ข้าวกล้อง', kcal: 380, p: 35, c: 40, f: 5 }
-      ];
+      const d = new Date();
+      d.setDate(d.getDate() - 1);
+      const yKey = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+      const yLogs = state.foodLogsByDate[yKey] || [];
 
+      if (yLogs.length === 0) {
+        alert('ไม่พบรายการอาหารของเมื่อวาน');
+        return;
+      }
+
+      const todayLogs = getTodayFoodLogs();
       const now = new Date();
       const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
 
-      yesterdayMock.forEach(meal => {
-        state.foodLogs.push({ id: Date.now() + Math.random(), time: timeStr, ...meal });
+      yLogs.forEach(meal => {
+        todayLogs.push({ id: Date.now() + Math.random(), time: timeStr, name: meal.name, kcal: meal.kcal, p: meal.p, c: meal.c, f: meal.f });
       });
 
       renderDashboard();
@@ -1322,12 +1416,13 @@
 
     function renderFoodLogs() {
       const fullList = document.getElementById('full-food-list');
-      if (state.foodLogs.length === 0) {
-        fullList.innerHTML = `<p class="text-xs text-slate-400 text-center py-6">ไม่มีรายการมื้ออาหาร</p>`;
+      const todayLogs = getTodayFoodLogs();
+      if (todayLogs.length === 0) {
+        fullList.innerHTML = `<p class="text-xs text-slate-400 text-center py-6">ไม่มีรายการมื้ออาหารวันนี้</p>`;
         return;
       }
 
-      fullList.innerHTML = state.foodLogs.slice().reverse().map(item => `
+      fullList.innerHTML = todayLogs.slice().reverse().map(item => `
         <div class="bg-white p-4 rounded-3xl soft-card border border-slate-100/80 flex items-center justify-between">
           <div class="space-y-1">
             <div class="flex items-center gap-2">
@@ -1340,12 +1435,92 @@
               <span class="text-rose-600 bg-rose-50 px-1.5 py-0.5 rounded-md font-medium">F: ${item.f}g</span>
             </div>
           </div>
-          <div class="text-right">
-            <span class="font-extrabold text-blue-600 text-base">${item.kcal}</span>
-            <span class="text-[10px] text-slate-400 block font-medium">kcal</span>
+          <div class="flex items-center gap-3">
+            <div class="text-right">
+              <span class="font-extrabold text-blue-600 text-base">${item.kcal}</span>
+              <span class="text-[10px] text-slate-400 block font-medium">kcal</span>
+            </div>
+            <button onclick="deleteFoodLogItem(${item.id})" class="text-slate-300 hover:text-rose-500 p-1">
+              <i class="fa-solid fa-trash text-xs"></i>
+            </button>
           </div>
         </div>
       `).join('');
+    }
+
+    function deleteFoodLogItem(id) {
+      const todayLogs = getTodayFoodLogs();
+      const key = getTodayKey();
+      state.foodLogsByDate[key] = todayLogs.filter(item => item.id !== id);
+      renderDashboard();
+      renderFoodLogs();
+    }
+
+    // Monthly Calendar Log Functions
+    function renderMonthlyFoodCalendar() {
+      const container = document.getElementById('monthly-food-calendar');
+      if (!container) return;
+
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = now.getMonth();
+
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+      const dayHeaders = ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'];
+      let html = dayHeaders.map(d => `<div class="font-bold text-[10px] text-slate-400 py-1">${d}</div>`).join('');
+
+      for (let i = 0; i < firstDay; i++) {
+        html += `<div class="p-2"></div>`;
+      }
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dateKey = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const logs = state.foodLogsByDate[dateKey] || [];
+        const totalKcal = logs.reduce((sum, item) => sum + item.kcal, 0);
+
+        const isToday = day === now.getDate();
+
+        html += `
+          <div onclick="showMonthlyDayDetails('${dateKey}', ${day})" class="p-1.5 rounded-xl cursor-pointer border ${isToday ? 'border-blue-500 bg-blue-50' : 'border-slate-100 bg-slate-50 hover:bg-slate-100'} min-h-[50px] flex flex-col justify-between">
+            <span class="font-bold text-[10px] ${isToday ? 'text-blue-600' : 'text-slate-700'}">${day}</span>
+            ${totalKcal > 0 ? `
+              <span class="text-[8px] font-extrabold text-blue-600 bg-blue-100 px-1 rounded truncate">
+                ${totalKcal}k
+              </span>
+            ` : ''}
+          </div>
+        `;
+      }
+
+      container.innerHTML = html;
+    }
+
+    function showMonthlyDayDetails(dateKey, dayNum) {
+      const detailBox = document.getElementById('selected-day-food-detail');
+      const logs = state.foodLogsByDate[dateKey] || [];
+
+      if (logs.length === 0) {
+        detailBox.innerHTML = `<p class="text-center text-xs text-slate-400 py-2">ไม่มีประวัติการบันทึกอาหารของวันที่ ${dayNum}</p>`;
+        return;
+      }
+
+      const totalKcal = logs.reduce((sum, item) => sum + item.kcal, 0);
+      detailBox.innerHTML = `
+        <div class="flex justify-between items-center border-b border-slate-200 pb-2">
+          <span class="font-bold text-xs text-slate-800">ประวัติอาหารวันที่ ${dayNum}</span>
+          <span class="font-extrabold text-xs text-blue-600">รวม ${totalKcal} kcal</span>
+        </div>
+        <div class="space-y-1.5 pt-1">
+          ${logs.map(item => `
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-slate-700">${item.time} - ${item.name}</span>
+              <span class="font-bold text-slate-600">${item.kcal} kcal</span>
+            </div>
+          `).join('')}
+        </div>
+      `;
     }
 
     function handleImageSelect(event) {
@@ -1389,11 +1564,11 @@
 
       setTimeout(() => {
         state.lastScannedMeal = {
-          name: 'สเต๊กไก่ย่าง + ผักสลัด',
-          kcal: 420,
-          p: 38,
-          c: 18,
-          f: 12
+          name: 'อาหารตามรูปถ่าย',
+          kcal: 450,
+          p: 25,
+          c: 50,
+          f: 15
         };
         btn.innerHTML = `<span>วิเคราะห์สำเร็จ</span> <i class="fa-solid fa-check"></i>`;
         displayAiResult();
@@ -1417,7 +1592,8 @@
       const now = new Date();
       const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
 
-      state.foodLogs.push({
+      const todayLogs = getTodayFoodLogs();
+      todayLogs.push({
         id: Date.now(),
         time: timeStr,
         name: state.lastScannedMeal.name,
@@ -1443,15 +1619,16 @@
 
     function saveManualMeal() {
       const name = document.getElementById('input-meal-name').value || 'มื้ออาหารทั่วไป';
-      const kcal = parseInt(document.getElementById('input-meal-kcal').value) || 300;
-      const p = parseInt(document.getElementById('input-meal-p').value) || 20;
-      const c = parseInt(document.getElementById('input-meal-c').value) || 30;
-      const f = parseInt(document.getElementById('input-meal-f').value) || 8;
+      const kcal = parseInt(document.getElementById('input-meal-kcal').value) || 0;
+      const p = parseInt(document.getElementById('input-meal-p').value) || 0;
+      const c = parseInt(document.getElementById('input-meal-c').value) || 0;
+      const f = parseInt(document.getElementById('input-meal-f').value) || 0;
 
       const now = new Date();
       const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
 
-      state.foodLogs.push({ id: Date.now(), time: timeStr, name, kcal, p, c, f });
+      const todayLogs = getTodayFoodLogs();
+      todayLogs.push({ id: Date.now(), time: timeStr, name, kcal, p, c, f });
       renderDashboard();
       renderFoodLogs();
       closeModal('modal-meal');
@@ -1461,7 +1638,7 @@
       const w = parseFloat(document.getElementById('input-weight-val').value);
       if (w) {
         state.currentWeight = w;
-        state.weightHistory[state.weightHistory.length - 1] = w;
+        state.weightHistory.push(w);
         renderDashboard();
         if (weightChart) {
           weightChart.data.datasets[0].data = state.weightHistory;
@@ -1473,11 +1650,24 @@
 
     function saveStepsLog() {
       const steps = parseInt(document.getElementById('input-steps-val').value);
-      if (steps) {
+      if (!isNaN(steps)) {
         state.dailySteps = steps;
         renderDashboard();
       }
       closeModal('modal-steps');
+    }
+
+    function saveBodyMeasurements() {
+      const waist = document.getElementById('input-waist-val').value;
+      const hips = document.getElementById('input-hips-val').value;
+      const thighs = document.getElementById('input-thighs-val').value;
+
+      if (waist) state.measurements.waist = waist;
+      if (hips) state.measurements.hips = hips;
+      if (thighs) state.measurements.thighs = thighs;
+
+      renderDashboard();
+      closeModal('modal-measure');
     }
 
     function initChart() {
@@ -1485,7 +1675,7 @@
       weightChart = new Chart(ctx, {
         type: 'line',
         data: {
-          labels: ['จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.', 'อา.'],
+          labels: state.weightHistory.map((_, i) => `ครั้งที่ ${i + 1}`),
           datasets: [{
             label: 'น้ำหนัก (kg)',
             data: state.weightHistory,
@@ -1502,7 +1692,7 @@
           responsive: true,
           plugins: { legend: { display: false } },
           scales: {
-            y: { min: 50, max: 58, grid: { color: '#f1f5f9' } },
+            y: { min: 40, max: 100, grid: { color: '#f1f5f9' } },
             x: { grid: { display: false } }
           }
         }
