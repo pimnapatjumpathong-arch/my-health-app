@@ -236,10 +236,10 @@
               </div>
             </div>
             <div class="flex gap-1.5">
-              <button onclick="addWater(250)" class="px-2.5 py-1 bg-sky-50 text-sky-600 font-bold text-xs rounded-xl hover:bg-sky-100 transition border border-sky-100">
+              <button onclick="addWater(250)" class="px-2.5 py-1 bg-sky-50 text-sky-600 font-bold text-xs rounded-xl hover:bg-sky-100 transition border border-sky-100 active:scale-95">
                 +250ml
               </button>
-              <button onclick="addWater(500)" class="px-2.5 py-1 bg-blue-500 text-white font-bold text-xs rounded-xl hover:bg-blue-600 transition glow-btn">
+              <button onclick="addWater(500)" class="px-2.5 py-1 bg-blue-500 text-white font-bold text-xs rounded-xl hover:bg-blue-600 transition glow-btn active:scale-95">
                 +500ml
               </button>
             </div>
@@ -872,11 +872,10 @@
     };
 
     let workoutTemplates = JSON.parse(localStorage.getItem('ginfit_templates')) || [];
-
     let calendarAssignments = JSON.parse(localStorage.getItem('ginfit_calendar')) || {};
 
     let state = JSON.parse(localStorage.getItem('ginfit_state')) || {
-      foodLogsByDate: {}, // Format: { 'YYYY-MM-DD': [ { id, time, name, kcal, p, c, f } ] }
+      foodLogsByDate: {}, 
       currentWeight: null,
       targetWeight: 50.0,
       waterIntake: 0,
@@ -911,7 +910,6 @@
     }
 
     window.onload = function() {
-      // Bind live input listeners for TDEE calculation
       ['calc-age', 'calc-height', 'calc-weight'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.addEventListener('input', calculateLiveTdee);
@@ -981,7 +979,6 @@
       document.getElementById('mascot-text').innerText = `"${randomQuote}"`;
     }
 
-    // TDEE & Goal Calculation Formula
     function calculateLiveTdee() {
       const gender = document.getElementById('calc-gender').value;
       const age = parseFloat(document.getElementById('calc-age').value) || 25;
@@ -1053,14 +1050,15 @@
       document.getElementById('f-rem').innerText = Math.max(0, TARGETS.fat - totals.f);
 
       // Water & Steps
-      document.getElementById('water-curr').innerText = state.waterIntake;
+      document.getElementById('water-curr').innerText = state.waterIntake || 0;
       document.getElementById('water-target').innerText = TARGETS.water;
-      document.getElementById('water-progress-bar').style.width = `${Math.min(100, (state.waterIntake / TARGETS.water) * 100)}%`;
-      document.getElementById('dash-steps-val').innerText = state.dailySteps.toLocaleString();
+      const waterPct = Math.min(100, Math.round(((state.waterIntake || 0) / TARGETS.water) * 100));
+      document.getElementById('water-progress-bar').style.width = `${waterPct}%`;
+      document.getElementById('dash-steps-val').innerText = (state.dailySteps || 0).toLocaleString();
 
       // Weight & Analytics
-      document.getElementById('dash-weight-val').innerText = state.currentWeight || '--';
-      document.getElementById('analytics-curr-weight').innerText = state.currentWeight || '--';
+      document.getElementById('dash-weight-val').innerText = state.currentWeight !== null ? state.currentWeight : '--';
+      document.getElementById('analytics-curr-weight').innerText = state.currentWeight !== null ? state.currentWeight : '--';
       document.getElementById('measure-waist').innerText = state.measurements.waist;
       document.getElementById('measure-hips').innerText = state.measurements.hips;
       document.getElementById('measure-thighs').innerText = state.measurements.thighs;
@@ -1280,7 +1278,6 @@
       document.getElementById('modal-assign-routine').classList.remove('hidden');
     }
 
-    // Modal Builder logic for New Routine
     function openCreateTemplateModal() {
       document.getElementById('new-routine-name').value = '';
       document.getElementById('new-routine-tag').value = '';
@@ -1371,6 +1368,7 @@
 
     // Water & Fasting
     function addWater(amount) {
+      if (!state.waterIntake) state.waterIntake = 0;
       state.waterIntake += amount;
       renderDashboard();
     }
@@ -1636,11 +1634,13 @@
 
     function saveWeightLog() {
       const w = parseFloat(document.getElementById('input-weight-val').value);
-      if (w) {
+      if (!isNaN(w)) {
         state.currentWeight = w;
+        if (!state.weightHistory) state.weightHistory = [];
         state.weightHistory.push(w);
         renderDashboard();
         if (weightChart) {
+          weightChart.data.labels = state.weightHistory.map((_, i) => `ครั้งที่ ${i + 1}`);
           weightChart.data.datasets[0].data = state.weightHistory;
           weightChart.update();
         }
