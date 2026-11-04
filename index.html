@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>GinFit & Health Tracker</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Google Fonts (Kanit & Inter) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              blue: '#5eb0f6',
+              lightBlue: '#eef7ff',
+              bg: '#edf4fb',
+              textDark: '#1f2937',
+              accentGreen: '#4ade80',
+            }
+          },
+          fontFamily: {
+            sans: ['Kanit', 'Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #dbeafe;
+      font-family: 'Kanit', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 10px;
+    }
+    .sky-bg {
+      background: linear-gradient(180deg, #60a5fa 0%, #93c5fd 65%, #dbeafe 100%);
+    }
+    .cloud-svg {
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 35px;
+      fill: #edf4fb;
+    }
+    .glow-btn {
+      box-shadow: 0 8px 20px -4px rgba(59, 130, 246, 0.4);
+    }
+    .soft-card {
+      box-shadow: 0 10px 25px -5px rgba(148, 163, 184, 0.12), 0 8px 10px -6px rgba(148, 163, 184, 0.08);
+    }
+  </style>
+</head>
+<body class="flex justify-center items-center min-h-screen sm:py-6">
+
+  <!-- Mobile App Frame Container -->
+  <div class="w-full max-w-md h-screen sm:h-[860px] bg-brand-bg sm:rounded-[40px] shadow-2xl flex flex-col overflow-hidden relative border-0 sm:border-8 border-slate-800/80">
+    
+    <!-- Top Header / Sky Banner -->
+    <div class="sky-bg pt-6 pb-9 px-5 relative shrink-0 transition-all duration-300">
+      
+      <!-- Top Bar -->
+      <div class="flex justify-between items-center text-white mb-2">
+        <div class="flex items-center gap-2">
+          <div class="w-9 h-9 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white text-lg font-bold border border-white/30">
+            🥦
+          </div>
+          <div>
+            <h1 class="font-bold text-lg leading-tight drop-shadow-sm">PIM'S FIT</h1>
+            <p class="text-xs text-blue-100 font-normal">เป้าหมายลดน้ำหนัก Day 12</p>
+          </div>
+        </div>
+        
+        <!-- Settings Button (Triggers TDEE & Goal Calculator) -->
+        <button onclick="openSettingsModal()" class="w-9 h-9 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white/30 transition border border-white/30 shadow-sm" title="คำนวณ TDEE / ตั้งค่าเป้าหมาย">
+          <i class="fa-solid fa-sliders text-sm"></i>
+        </button>
+      </div>
+
+      <!-- Mascot Greeting Bubble -->
+      <div class="flex items-end justify-between mt-1 mb-1">
+        <div class="flex items-center gap-3">
+          <div class="relative group cursor-pointer" onclick="triggerMascotQuote()">
+            <div class="w-14 h-14 bg-gradient-to-tr from-emerald-400 to-green-500 rounded-full flex items-center justify-center shadow-lg transform group-hover:scale-105 transition border-2 border-white">
+              <span class="text-2xl">🥦</span>
+            </div>
+            <div class="absolute -bottom-1 -right-1 bg-white rounded-full px-1.5 py-0.5 text-[8px] font-bold text-green-700 shadow">
+              GinFit
+            </div>
+          </div>
+          <div class="bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-2xl rounded-bl-none shadow-md border border-white max-w-[220px]">
+            <p id="mascot-text" class="text-xs font-medium text-slate-700 leading-snug">
+              "ลุยกันต่อเลย! วันนี้กินโปรตีนให้ถึงเป้าหมายนะคนเก่ง 💪"
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cloud Graphic Divider -->
+      <svg class="cloud-svg" viewBox="0 0 1440 320" preserveAspectRatio="none">
+        <path d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,208C672,213,768,203,864,176C960,149,1056,107,1152,106.7C1248,107,1344,149,1392,170.7L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+      </svg>
+    </div>
+
+    <!-- Main Content Area (Scrollable) -->
+    <div class="flex-1 overflow-y-auto px-4 pt-1 pb-24 custom-scrollbar space-y-4">
+
+      <!-- ================= TAB 1: DASHBOARD ================= -->
+      <div id="tab-dashboard" class="tab-content space-y-4">
+
+        <!-- Pim's Plan Card (Calorie & Macro Targets) -->
+        <div class="bg-white rounded-3xl p-5 soft-card relative border border-slate-100/80">
+          <div class="flex justify-between items-start mb-3">
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-[11px] font-bold uppercase tracking-wider text-green-600 bg-green-50 px-2.5 py-0.5 rounded-full">
+                  PIM'S PLAN
+                </span>
+                <span id="tdee-mode-tag" class="text-[10px] text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">ลดน้ำหนัก</span>
+              </div>
+              <div class="mt-2 flex items-baseline gap-1.5">
+                <span id="current-kcal" class="text-4xl font-extrabold text-slate-800 tracking-tight">0</span>
+                <span class="text-slate-400 font-semibold text-lg">/ <span id="target-kcal">1,400</span></span>
+              </div>
+              <p class="text-xs text-slate-400 font-medium">kcal / day (TDEE: <span id="tdee-val-display">1,900</span>)</p>
+            </div>
+
+            <div class="relative w-16 h-16 flex items-center justify-center">
+              <svg class="w-full h-full transform -rotate-90">
+                <circle cx="32" cy="32" r="26" stroke="#f1f5f9" stroke-width="6" fill="transparent" />
+                <circle id="kcal-progress-circle" cx="32" cy="32" r="26" stroke="#4ade80" stroke-width="6" stroke-dasharray="163" stroke-dashoffset="163" stroke-linecap="round" fill="transparent" class="transition-all duration-700" />
+              </svg>
+              <i class="fa-solid fa-fire text-amber-500 text-sm absolute"></i>
+            </div>
+          </div>
+
+          <div class="h-px w-full bg-slate-100 my-3"></div>
+
+          <!-- Macros Breakdown List -->
+          <div class="space-y-2">
+            <!-- Protein -->
+            <div class="flex items-center justify-between bg-sky-50/70 p-2.5 rounded-2xl border border-sky-100">
+              <div class="flex items-center gap-2">
+                <span class="text-lg">🍗</span>
+                <div>
+                  <div class="text-xs text-slate-500 font-medium">Protein</div>
+                  <div class="text-xs text-slate-400"><span id="p-curr">0</span> / <span id="p-target">134</span>g</div>
+                </div>
+              </div>
+              <span class="font-extrabold text-xs bg-sky-100/80 px-3 py-1 rounded-full text-sky-800">
+                <span id="p-rem">134</span>g เหลือ
+              </span>
+            </div>
+
+            <!-- Carbs -->
+            <div class="flex items-center justify-between bg-amber-50/70 p-2.5 rounded-2xl border border-amber-100">
+              <div class="flex items-center gap-2">
+                <span class="text-lg">🌾</span>
+                <div>
+                  <div class="text-xs text-slate-500 font-medium">Carbs</div>
+                  <div class="text-xs text-slate-400"><span id="c-curr">0</span> / <span id="c-target">95</span>g</div>
+                </div>
+              </div>
+              <span class="font-extrabold text-xs bg-amber-100/80 px-3 py-1 rounded-full text-amber-800">
+                <span id="c-rem">95</span>g เหลือ
+              </span>
+            </div>
+
+            <!-- Fat -->
+            <div class="flex items-center justify-between bg-rose-50/70 p-2.5 rounded-2xl border border-rose-100">
+              <div class="flex items-center gap-2">
+                <span class="text-lg">🥑</span>
+                <div>
+                  <div class="text-xs text-slate-500 font-medium">Fat</div>
+                  <div class="text-xs text-slate-400"><span id="f-curr">0</span> / <span id="f-target">54</span>g</div>
+                </div>
+              </div>
+              <span class="font-extrabold text-xs bg-rose-100/80 px-3 py-1 rounded-full text-rose-800">
+                <span id="f-rem">54</span>g เหลือ
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Weekly Calorie Bank Summary Widget -->
+        <div class="bg-white rounded-3xl p-4 soft-card border border-slate-100/80">
+          <div class="flex justify-between items-center mb-2">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 bg-indigo-50 rounded-lg flex items-center justify-center text-indigo-500 text-xs font-bold">
+                <i class="fa-solid fa-piggy-bank"></i>
+              </div>
+              <h3 class="font-bold text-slate-800 text-xs">Weekly Calorie Bank (ธนาคารแคล)</h3>
+            </div>
+            <span id="bank-status-tag" class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
+              เหลือเก็บ +250 kcal
+            </span>
+          </div>
+          <p class="text-[11px] text-slate-400 mb-2">ช่วยให้กินเกินในบางวันได้ โดยดูภาพรวมแคลอรีสะสมทั้งสัปดาห์</p>
+          
+          <div class="grid grid-cols-7 gap-1 text-center text-[10px] pt-1" id="weekly-bank-bars">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Water Tracker Widget -->
+        <div class="bg-white rounded-3xl p-4 soft-card border border-slate-100/80">
+          <div class="flex justify-between items-center mb-2">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 bg-sky-50 rounded-lg flex items-center justify-center text-sky-500 text-xs">
+                <i class="fa-solid fa-droplet"></i>
+              </div>
+              <div>
+                <h3 class="font-bold text-slate-800 text-xs">บันทึกการดื่มน้ำ</h3>
+                <p class="text-[10px] text-slate-400"><span id="water-curr">1250</span> / <span id="water-target">2000</span> ml</p>
+              </div>
+            </div>
+            <div class="flex gap-1.5">
+              <button onclick="addWater(250)" class="px-2.5 py-1 bg-sky-50 text-sky-600 font-bold text-xs rounded-xl hover:bg-sky-100 transition border border-sky-100">
+                +250ml
+              </button>
+              <button onclick="addWater(500)" class="px-2.5 py-1 bg-blue-500 text-white font-bold text-xs rounded-xl hover:bg-blue-600 transition glow-btn">
+                +500ml
+              </button>
+            </div>
+          </div>
+          <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden mt-1">
+            <div id="water-progress-bar" class="bg-sky-400 h-full rounded-full transition-all duration-300" style="width: 62%;"></div>
+          </div>
+        </div>
+
+        <!-- Fasting Timer Widget (IF 16/8) -->
+        <div class="bg-gradient-to-r from-slate-800 to-slate-900 rounded-3xl p-4 text-white soft-card flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-white/10 rounded-2xl flex items-center justify-center text-amber-400 text-lg">
+              <i class="fa-solid fa-stopwatch"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h3 class="font-bold text-xs text-white">IF 16/8 Fasting</h3>
+                <span id="fasting-status-badge" class="text-[9px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full font-semibold border border-emerald-500/30">
+                  กำลังอดอาหาร
+                </span>
+              </div>
+              <p id="fasting-timer-text" class="text-xs text-slate-300 font-mono mt-0.5">เหลืออีก 04:25:10 ชม.</p>
+            </div>
+          </div>
+          <button onclick="toggleFasting()" id="btn-fasting-toggle" class="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold transition border border-white/20">
+            สลับโหมด
+          </button>
+        </div>
+
+        <!-- Quick AI Scanner Banner -->
+        <div onclick="switchTab('ai-scan')" class="bg-gradient-to-r from-blue-500 to-indigo-500 rounded-3xl p-4 text-white soft-card flex items-center justify-between cursor-pointer hover:opacity-95 transition glow-btn">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-white/20 rounded-2xl flex items-center justify-center text-xl backdrop-blur-md">
+              ✨
+            </div>
+            <div>
+              <h3 class="font-bold text-sm">AI สแกนรูปอาหาร</h3>
+              <p class="text-[11px] text-blue-100">ถ่ายรูปมื้อนี้ เพื่อคำนวณแคลอรีอัตโนมัติ</p>
+            </div>
+          </div>
+          <i class="fa-solid fa-chevron-right text-white/70 text-xs"></i>
+        </div>
+
+        <!-- Today's Meal Log Preview + Quick Clone Button -->
+        <div class="bg-white rounded-3xl p-4 soft-card border border-slate-100/80">
+          <div class="flex justify-between items-center mb-3">
+            <h3 class="font-bold text-slate-800 text-xs flex items-center gap-1.5">
+              <i class="fa-solid fa-utensils text-blue-500"></i> มื้ออาหารวันนี้
+            </h3>
+            <div class="flex gap-2">
+              <button onclick="cloneYesterdayMeals()" class="text-[10px] bg-sky-50 text-sky-600 font-bold px-2.5 py-1 rounded-xl hover:bg-sky-100 transition" title="ก๊อปปี้มื้ออาหารจากเมื่อวาน">
+                <i class="fa-solid fa-copy"></i> ก๊อปมื้อเมื่อวาน
+              </button>
+              <button onclick="switchTab('log')" class="text-xs text-blue-500 font-semibold hover:underline">
+                ดูทั้งหมด
+              </button>
+            </div>
+          </div>
+
+          <div id="dashboard-food-list" class="space-y-2">
+            <!-- Meal Items rendered via JS -->
+          </div>
+        </div>
+
+        <!-- Weight & NEAT Steps Grid -->
+        <div class="grid grid-cols-2 gap-3">
+          <!-- Weight Widget -->
+          <div class="bg-white p-4 rounded-3xl soft-card border border-slate-100/80 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-slate-400 text-xs font-semibold mb-1">
+                <span>น้ำหนักวันนี้</span>
+                <i class="fa-solid fa-weight-scale text-purple-400"></i>
+              </div>
+              <div class="flex items-baseline gap-1">
+                <span id="dash-weight-val" class="text-2xl font-bold text-slate-800">54.5</span>
+                <span class="text-xs text-slate-400 font-medium">kg</span>
+              </div>
+            </div>
+            <button onclick="openWeightModal()" class="mt-3 w-full py-1.5 bg-purple-50 text-purple-600 rounded-xl text-xs font-bold hover:bg-purple-100 transition">
+              + บันทึกน้ำหนัก
+            </button>
+          </div>
+
+          <!-- NEAT Steps Widget -->
+          <div class="bg-white p-4 rounded-3xl soft-card border border-slate-100/80 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-slate-400 text-xs font-semibold mb-1">
+                <span>ขยับ/ก้าวเดิน</span>
+                <i class="fa-solid fa-shoe-prints text-emerald-500"></i>
+              </div>
+              <div class="flex items-baseline gap-1">
+                <span id="dash-steps-val" class="text-2xl font-bold text-slate-800">6,420</span>
+                <span class="text-[10px] text-slate-400 font-medium">ก้าว</span>
+              </div>
+            </div>
+            <button onclick="openStepsModal()" class="mt-3 w-full py-1.5 bg-emerald-50 text-emerald-600 rounded-xl text-xs font-bold hover:bg-emerald-100 transition">
+              + บันทึกก้าวเดิน
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ================= TAB 2: WORKOUT PLANNER ================= -->
+      <div id="tab-workout" class="tab-content hidden space-y-4">
+        
+        <!-- Toggle Sub-View: Templates vs Calendar -->
+        <div class="bg-white/80 backdrop-blur-md p-1.5 rounded-2xl flex gap-1 border border-slate-100 shadow-sm">
+          <button onclick="switchWorkoutSubTab('templates')" id="sub-btn-templates" class="flex-1 py-2 rounded-xl text-xs font-bold bg-blue-500 text-white transition shadow-sm">
+            <i class="fa-solid fa-dumbbell mr-1"></i> คลังโปรแกรม
+          </button>
+          <button onclick="switchWorkoutSubTab('calendar')" id="sub-btn-calendar" class="flex-1 py-2 rounded-xl text-xs font-bold text-slate-500 hover:text-slate-800 transition">
+            <i class="fa-solid fa-calendar-days mr-1"></i> ตารางซ้อม
+          </button>
+        </div>
+
+        <!-- Sub-View 1: Workout Templates Library -->
+        <div id="workout-sub-templates" class="space-y-3">
+          <div class="flex justify-between items-center">
+            <h2 class="font-bold text-slate-800 text-sm">คลังโปรแกรมออกกำลังกาย</h2>
+            <button onclick="openCreateTemplateModal()" class="text-xs bg-blue-500 text-white font-bold px-3 py-1.5 rounded-xl hover:bg-blue-600 transition shadow-sm flex items-center gap-1">
+              <i class="fa-solid fa-plus text-[10px]"></i> สร้าง Routine ใหม่
+            </button>
+          </div>
+
+          <div id="templates-list-container" class="space-y-3">
+            <!-- Rendered by JS (Full Body A, B, C) -->
+          </div>
+        </div>
+
+        <!-- Sub-View 2: Monthly/Weekly Calendar Planner -->
+        <div id="workout-sub-calendar" class="hidden space-y-3">
+          <div class="bg-white rounded-3xl p-4 soft-card border border-slate-100">
+            <div class="flex justify-between items-center mb-3">
+              <h3 class="font-bold text-slate-800 text-sm">ตารางซ้อมประจำสัปดาห์</h3>
+              <span class="text-[11px] text-blue-500 font-semibold">แตะวันที่ต้องการเพิ่มโปรแกรม</span>
+            </div>
+
+            <div id="calendar-days-grid" class="grid grid-cols-7 gap-1.5 text-center text-xs">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+
+          <!-- Assigned Workout Detail Box -->
+          <div id="calendar-workout-detail" class="bg-white rounded-3xl p-4 soft-card border border-slate-100">
+            <div class="text-center py-6 text-slate-400 text-xs">
+              <i class="fa-solid fa-calendar-check text-2xl mb-1 text-slate-300"></i>
+              <p>เลือกวันในตารางด้านบน เพื่อเปิดดูเช็กลิสต์ท่าซ้อม</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ================= TAB 3: AI SCANNER ================= -->
+      <div id="tab-ai-scan" class="tab-content hidden space-y-4">
+        <div class="bg-white rounded-3xl p-5 soft-card border border-slate-100/80">
+          <div class="text-center mb-4">
+            <div class="w-14 h-14 bg-blue-50 rounded-full flex items-center justify-center text-blue-500 mx-auto mb-2 text-2xl">
+              <i class="fa-solid fa-camera-retro"></i>
+            </div>
+            <h2 class="font-bold text-slate-800 text-base">วิเคราะห์แคลอรีด้วย AI</h2>
+            <p class="text-xs text-slate-400 mt-1">ถ่ายรูปอาหาร ระบบ AI จะประเมินสารอาหารให้อัตโนมัติ</p>
+          </div>
+
+          <div class="relative border-2 border-dashed border-slate-200 rounded-3xl p-4 text-center hover:border-blue-400 transition bg-slate-50/50" id="drop-zone">
+            <input type="file" id="food-image-input" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="handleImageSelect(event)">
+            
+            <div id="upload-placeholder" class="py-6">
+              <i class="fa-solid fa-cloud-arrow-up text-3xl text-slate-300 mb-2"></i>
+              <p class="text-xs font-medium text-slate-600">กดเพื่อเลือกรูปภาพมื้ออาหาร</p>
+              <p class="text-[10px] text-slate-400 mt-0.5">รองรับ JPG, PNG</p>
+            </div>
+
+            <div id="image-preview-container" class="hidden relative">
+              <img id="food-image-preview" src="" alt="Food Preview" class="max-h-56 mx-auto rounded-2xl shadow-sm object-cover">
+              <button onclick="resetImageScan()" class="absolute top-2 right-2 w-8 h-8 bg-slate-900/60 text-white rounded-full flex items-center justify-center text-xs backdrop-blur-sm">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+          </div>
+
+          <button id="btn-analyze" onclick="analyzeFoodImage()" disabled class="w-full mt-4 py-3 bg-slate-300 text-white font-bold rounded-2xl text-sm transition shadow-sm flex items-center justify-center gap-2">
+            <span>เริ่มวิเคราะห์ด้วย AI</span>
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+          </button>
+        </div>
+
+        <!-- AI Result Box -->
+        <div id="ai-result-box" class="hidden bg-white rounded-3xl p-5 soft-card border border-blue-100 space-y-3">
+          <div class="flex justify-between items-center">
+            <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full flex items-center gap-1">
+              <i class="fa-solid fa-circle-check"></i> ผลการวิเคราะห์
+            </span>
+            <span class="text-[11px] text-slate-400">ความแม่นยำ ~88%</span>
+          </div>
+
+          <div>
+            <h3 id="res-food-name" class="font-bold text-lg text-slate-800">ข้าวมันไก่ต้ม</h3>
+            <div class="flex items-baseline gap-1 mt-0.5">
+              <span id="res-food-kcal" class="text-3xl font-extrabold text-blue-600">590</span>
+              <span class="text-xs font-semibold text-slate-400">kcal</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2 py-1">
+            <div class="bg-sky-50 p-2.5 rounded-2xl text-center">
+              <div class="text-[10px] font-semibold text-slate-400">โปรตีน</div>
+              <div class="font-extrabold text-sky-600 text-sm mt-0.5"><span id="res-food-p">28</span>g</div>
+            </div>
+            <div class="bg-amber-50 p-2.5 rounded-2xl text-center">
+              <div class="text-[10px] font-semibold text-slate-400">คาร์บ</div>
+              <div class="font-extrabold text-amber-600 text-sm mt-0.5"><span id="res-food-c">65</span>g</div>
+            </div>
+            <div class="bg-rose-50 p-2.5 rounded-2xl text-center">
+              <div class="text-[10px] font-semibold text-slate-400">ไขมัน</div>
+              <div class="font-extrabold text-rose-600 text-sm mt-0.5"><span id="res-food-f">22</span>g</div>
+            </div>
+          </div>
+
+          <button onclick="addAiResultToLog()" class="w-full py-3 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-2xl text-sm transition shadow-md glow-btn">
+            + บันทึกลงมื้ออาหารวันนี้
+          </button>
+        </div>
+      </div>
+
+      <!-- ================= TAB 4: LOG HISTORY ================= -->
+      <div id="tab-log" class="tab-content hidden space-y-4">
+        <div class="flex justify-between items-center">
+          <h2 class="font-bold text-slate-800 text-base">บันทึกอาหารประจำวัน</h2>
+          <div class="flex gap-2">
+            <button onclick="cloneYesterdayMeals()" class="px-3 py-1.5 bg-sky-50 text-sky-600 rounded-xl text-xs font-bold hover:bg-sky-100 transition">
+              <i class="fa-solid fa-copy"></i> ก๊อปมื้อเมื่อวาน
+            </button>
+            <button onclick="openManualMealModal()" class="px-3 py-1.5 bg-blue-50 text-blue-600 rounded-xl text-xs font-bold hover:bg-blue-100 transition">
+              + เพิ่มเอง
+            </button>
+          </div>
+        </div>
+
+        <div id="full-food-list" class="space-y-3">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- ================= TAB 5: ANALYTICS & BODY MEASUREMENTS ================= -->
+      <div id="tab-analytics" class="tab-content hidden space-y-4">
+        
+        <!-- Weight Overview Card -->
+        <div class="bg-white rounded-3xl p-5 soft-card border border-slate-100/80 space-y-3">
+          <div class="flex justify-between items-center">
+            <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+              <i class="fa-solid fa-chart-line text-purple-500"></i> สถิติน้ำหนักตัว
+            </h3>
+            <button onclick="openWeightModal()" class="text-xs text-purple-600 font-bold bg-purple-50 px-2.5 py-1 rounded-full">
+              + บันทึกเพิ่ม
+            </button>
+          </div>
+
+          <div class="flex items-baseline justify-between pt-1">
+            <div>
+              <p class="text-xs text-slate-400">ปัจจุบัน</p>
+              <p class="text-2xl font-extrabold text-slate-800"><span id="analytics-curr-weight">54.5</span> <span class="text-xs text-slate-400 font-normal">kg</span></p>
+            </div>
+            <div class="text-right">
+              <p class="text-xs text-slate-400">เป้าหมาย</p>
+              <p class="text-2xl font-extrabold text-purple-600"><span id="analytics-target-weight">52.0</span> <span class="text-xs text-slate-400 font-normal">kg</span></p>
+            </div>
+          </div>
+
+          <div class="pt-2">
+            <canvas id="weightChart" height="170"></canvas>
+          </div>
+        </div>
+
+        <!-- Body Measurements Log Card -->
+        <div class="bg-white rounded-3xl p-5 soft-card border border-slate-100/80 space-y-3">
+          <div class="flex justify-between items-center">
+            <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+              <i class="fa-solid fa-ruler-combined text-indigo-500"></i> สัดส่วนร่างกาย (นิ้ว)
+            </h3>
+            <button onclick="openBodyMeasureModal()" class="text-xs text-indigo-600 font-bold bg-indigo-50 px-2.5 py-1 rounded-full">
+              + อัปเดตสัดส่วน
+            </button>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2 pt-1 text-center">
+            <div class="bg-slate-50 p-2.5 rounded-2xl">
+              <p class="text-[10px] text-slate-400 font-medium">รอบเอว</p>
+              <p class="text-base font-bold text-slate-800 mt-0.5"><span id="measure-waist">26.5</span>"</p>
+            </div>
+            <div class="bg-slate-50 p-2.5 rounded-2xl">
+              <p class="text-[10px] text-slate-400 font-medium">สะโพก</p>
+              <p class="text-base font-bold text-slate-800 mt-0.5"><span id="measure-hips">35.0</span>"</p>
+            </div>
+            <div class="bg-slate-50 p-2.5 rounded-2xl">
+              <p class="text-[10px] text-slate-400 font-medium">ต้นขา</p>
+              <p class="text-base font-bold text-slate-800 mt-0.5"><span id="measure-thighs">20.5</span>"</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <div class="absolute bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-slate-100 py-2.5 px-4 flex justify-around items-center z-20">
+      <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn flex flex-col items-center gap-1 text-blue-500 transition">
+        <i class="fa-solid fa-house text-base"></i>
+        <span class="text-[9px] font-bold">หน้าแรก</span>
+      </button>
+
+      <button onclick="switchTab('workout')" id="nav-workout" class="nav-btn flex flex-col items-center gap-1 text-slate-400 hover:text-blue-500 transition">
+        <i class="fa-solid fa-dumbbell text-base"></i>
+        <span class="text-[9px] font-bold">ออกกำลัง</span>
+      </button>
+
+      <button onclick="openManualMealModal()" class="w-11 h-11 bg-gradient-to-tr from-blue-500 to-sky-400 text-white rounded-full flex items-center justify-center text-lg shadow-lg -mt-5 hover:scale-105 transition glow-btn">
+        <i class="fa-solid fa-plus"></i>
+      </button>
+
+      <button onclick="switchTab('ai-scan')" id="nav-ai-scan" class="nav-btn flex flex-col items-center gap-1 text-slate-400 hover:text-blue-500 transition">
+        <i class="fa-solid fa-wand-magic-sparkles text-base"></i>
+        <span class="text-[9px] font-bold">สแกน AI</span>
+      </button>
+
+      <button onclick="switchTab('analytics')" id="nav-analytics" class="nav-btn flex flex-col items-center gap-1 text-slate-400 hover:text-blue-500 transition">
+        <i class="fa-solid fa-chart-pie text-base"></i>
+        <span class="text-[9px] font-bold">สถิติ</span>
+      </button>
+    </div>
+
+    <!-- ================= MODALS ================= -->
+
+    <!-- Settings & TDEE Goal Calculator Modal -->
+    <div id="modal-settings" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+      <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-6 space-y-4 max-h-[85vh] overflow-y-auto custom-scrollbar">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center gap-2">
+            <i class="fa-solid fa-calculator text-blue-500"></i>
+            <h3 class="font-bold text-slate-800 text-base">คำนวณ TDEE & เป้าหมาย</h3>
+          </div>
+          <button onclick="closeModal('modal-settings')" class="text-slate-400 hover:text-slate-600">
+            <i class="fa-solid fa-xmark text-lg"></i>
+          </button>
+        </div>
+
+        <div class="space-y-3">
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="text-xs font-semibold text-slate-600">เพศ</label>
+              <select id="calc-gender" class="w-full mt-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium">
+                <option value="female">หญิง (Female)</option>
+                <option value="male">ชาย (Male)</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-xs font-semibold text-slate-600">อายุ (ปี)</label>
+              <input type="number" id="calc-age" value="26" class="w-full mt-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="text-xs font-semibold text-slate-600">ส่วนสูง (cm)</label>
+              <input type="number" id="calc-height" value="162" class="w-full mt-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800">
+            </div>
+            <div>
+              <label class="text-xs font-semibold text-slate-600">น้ำหนักปัจจุบัน (kg)</label>
+              <input type="number" id="calc-weight" value="54.5" class="w-full mt-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800">
+            </div>
+          </div>
+
+          <div>
+            <label class="text-xs font-semibold text-slate-600">ระดับการออกกำลังกาย</label>
+            <select id="calc-activity" class="w-full mt-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium">
+              <option value="1.2">นั่งทำงานอยู่กับที่ (Sedentary)</option>
+              <option value="1.375" selected>ออกกำลังกายเบาๆ 1-3 วัน/สัปดาห์</option>
+              <option value="1.55">ออกกำลังกายปานกลาง 3-5 วัน/สัปดาห์</option>
+              <option value="1.725">ออกกำลังกายหนัก 6-7 วัน/สัปดาห์</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="text-xs font-semibold text-slate-600">เป้าหมายของคุณ</label>
+            <select id="calc-goal" class="w-full mt-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium">
+              <option value="lose" selected>ลดน้ำหนัก (-500 kcal/วัน)</option>
+              <option value="maintain">คงน้ำหนักเดิม (Maintain)</option>
+              <option value="gain">เพิ่มกล้ามเนื้อ (+300 kcal/วัน)</option>
+            </select>
+          </div>
+
+          <!-- Calculated Preview -->
+          <div class="bg-blue-50/70 p-3 rounded-2xl border border-blue-100 space-y-1.5 text-xs">
+            <div class="flex justify-between text-slate-600">
+              <span>BMR (พลังงานพื้นฐาน):</span>
+              <span id="preview-bmr" class="font-bold">1,310 kcal</span>
+            </div>
+            <div class="flex justify-between text-slate-600">
+              <span>TDEE (เผาผลาญรวมต่อวัน):</span>
+              <span id="preview-tdee" class="font-bold">1,800 kcal</span>
+            </div>
+            <div class="flex justify-between text-blue-700 font-bold border-t border-blue-100 pt-1">
+              <span>เป้าหมายแคลอรีที่แนะนำ:</span>
+              <span id="preview-target" class="text-sm">1,300 kcal</span>
+            </div>
+          </div>
+        </div>
+
+        <button onclick="applyTdeeSettings()" class="w-full py-3 bg-blue-500 text-white font-bold rounded-2xl text-sm hover:bg-blue-600 transition shadow-md glow-btn">
+          อัปเดตเป้าหมายแผนโภชนาการ
+        </button>
+      </div>
+    </div>
+
+    <!-- Manual Meal Add Modal -->
+    <div id="modal-meal" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+      <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-6 space-y-4">
+        <div class="flex justify-between items-center">
+          <h3 class="font-bold text-slate-800 text-base">บันทึกมื้ออาหาร</h3>
+          <button onclick="closeModal('modal-meal')" class="text-slate-400 hover:text-slate-600">
+            <i class="fa-solid fa-xmark text-lg"></i>
+          </button>
+        </div>
+
+        <div class="space-y-3">
+          <div>
+            <label class="text-xs font-semibold text-slate-600">ชื่ออาหาร / เมนู</label>
+            <input type="text" id="input-meal-name" placeholder="เช่น อกไก่ย่าง + ข้าวไรซ์เบอร์รี่" class="w-full mt-1 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-blue-500">
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="text-xs font-semibold text-slate-600">แคลอรี (kcal)</label>
+              <input type="number" id="input-meal-kcal" placeholder="350" class="w-full mt-1 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-blue-500">
+            </div>
+            <div>
+              <label class="text-xs font-semibold text-slate-600">โปรตีน (g)</label>
+              <input type="number" id="input-meal-p" placeholder="30" class="w-full mt-1 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-blue-500">
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="text-xs font-semibold text-slate-600">คาร์โบไฮเดรต (g)</label>
+              <input type="number" id="input-meal-c" placeholder="40" class="w-full mt-1 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-blue-500">
+            </div>
+            <div>
+              <label class="text-xs font-semibold text-slate-600">ไขมัน (g)</label>
+              <input type="number" id="input-meal-f" placeholder="8" class="w-full mt-1 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-blue-500">
+            </div>
+          </div>
+        </div>
+
+        <button onclick="saveManualMeal()" class="w-full py-3 bg-blue-500 text-white font-bold rounded-2xl text-sm hover:bg-blue-600 transition shadow-md">
+          บันทึกข้อมูล
+        </button>
+      </div>
+    </div>
+
+    <!-- Weight Modal -->
+    <div id="modal-weight" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+      <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-6 space-y-4">
+        <div class="flex justify-between items-center">
+          <h3 class="font-bold text-slate-800 text-base">บันทึกน้ำหนักตัว</h3>
+          <button onclick="closeModal('modal-weight')" class="text-slate-400 hover:text-slate-600">
+            <i class="fa-solid fa-xmark text-lg"></i>
+          </button>
+        </div>
+
+        <div>
+          <label class="text-xs font-semibold text-slate-600">น้ำหนักปัจจุบัน (kg)</label>
+          <input type="number" step="0.1" id="input-weight-val" placeholder="54.5" class="w-full mt-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-lg font-bold text-slate-800 focus:outline-none focus:border-purple-500 text-center">
+        </div>
+
+        <button onclick="saveWeightLog()" class="w-full py-3 bg-purple-500 text-white font-bold rounded-2xl text-sm hover:bg-purple-600 transition shadow-md">
+          บันทึกน้ำหนัก
+        </button>
+      </div>
+    </div>
+
+    <!-- Assign Routine to Calendar Modal -->
+    <div id="modal-assign-routine" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+      <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-6 space-y-4">
+        <div class="flex justify-between items-center">
+          <h3 class="font-bold text-slate-800 text-base">เลือกโปรแกรมวางตาราง <span id="assign-day-name" class="text-blue-500"></span></h3>
+          <button onclick="closeModal('modal-assign-routine')" class="text-slate-400 hover:text-slate-600">
+            <i class="fa-solid fa-xmark text-lg"></i>
+          </button>
+        </div>
+
+        <div id="assign-routine-options" class="space-y-2">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Create Routine / Workout Template Modal -->
+    <div id="modal-create-routine" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+      <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-6 space-y-4 max-h-[85vh] overflow-y-auto custom-scrollbar">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center gap-2">
+            <i class="fa-solid fa-dumbbell text-blue-500"></i>
+            <h3 class="font-bold text-slate-800 text-base">สร้างโปรแกรมออกกำลังกายใหม่</h3>
+          </div>
+          <button onclick="closeModal('modal-create-routine')" class="text-slate-400 hover:text-slate-600">
+            <i class="fa-solid fa-xmark text-lg"></i>
+          </button>
+        </div>
+
+        <div class="space-y-3">
+          <div>
+            <label class="text-xs font-semibold text-slate-600">ชื่อโปรแกรม (Routine Name)</label>
+            <input type="text" id="new-routine-name" placeholder="เช่น Full Body D, Upper Body Focus" class="w-full mt-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:border-blue-500">
+          </div>
+
+          <div>
+            <label class="text-xs font-semibold text-slate-600">หมวดหมู่ / แท็กคำอธิบาย</label>
+            <input type="text" id="new-routine-tag" placeholder="เช่น อก / แขน / ท้อง" class="w-full mt-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-700 focus:outline-none focus:border-blue-500">
+          </div>
+
+          <div class="pt-2">
+            <div class="flex justify-between items-center mb-2">
+              <label class="text-xs font-bold text-slate-800">รายการท่าซ้อม (Exercises)</label>
+              <button onclick="addExerciseRow()" class="text-[11px] bg-blue-50 text-blue-600 font-bold px-2 py-1 rounded-lg hover:bg-blue-100 transition">
+                + เพิ่มท่าซ้อม
+              </button>
+            </div>
+
+            <!-- Dynamic Exercise Rows Container -->
+            <div id="exercise-rows-container" class="space-y-3">
+              <!-- Dynamically added by JS -->
+            </div>
+          </div>
+        </div>
+
+        <button onclick="saveNewRoutine()" class="w-full py-3 bg-blue-500 text-white font-bold rounded-2xl text-sm hover:bg-blue-600 transition shadow-md glow-btn">
+          บันทึกโปรแกรมใหม่ลงคลัง
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- JavaScript Logic -->
+  <script>
+    // App State & LocalStorage Persistence
+    let TARGETS = JSON.parse(localStorage.getItem('ginfit_targets')) || {
+      kcal: 1400,
+      protein: 134,
+      carbs: 95,
+      fat: 54,
+      water: 2000
+    };
+
+    let workoutTemplates = JSON.parse(localStorage.getItem('ginfit_templates')) || [
+      {
+        id: 'tpl-a',
+        name: 'Full Body A (เน้นขา & อก)',
+        tag: 'ขา / อก / หลัง / หน้าท้อง',
+        exercises: [
+          { name: 'Barbell Squat', sets: 4, reps: '8-10', weight: '35 kg' },
+          { name: 'DB Bench Press', sets: 3, reps: '10-12', weight: '10 kg/ข้าง' },
+          { name: 'Lat Pulldown', sets: 3, reps: '12', weight: '25 kg' },
+          { name: 'Leg Raise', sets: 3, reps: '15', weight: 'Bodyweight' }
+        ]
+      },
+      {
+        id: 'tpl-b',
+        name: 'Full Body B (เน้นหลัง & ไหล่)',
+        tag: 'หลัง / ไหล่ / ขาเดี่ยว',
+        exercises: [
+          { name: 'Romanian Deadlift', sets: 4, reps: '8-10', weight: '30 kg' },
+          { name: 'Overhead Press', sets: 3, reps: '10-12', weight: '8 kg/ข้าง' },
+          { name: 'Seated Cable Row', sets: 3, reps: '12', weight: '20 kg' },
+          { name: 'Dumbbell Lunges', sets: 3, reps: '12', weight: '6 kg/ข้าง' }
+        ]
+      },
+      {
+        id: 'tpl-c',
+        name: 'Full Body C (แขน & คาร์ดิโอ)',
+        tag: 'แขน / คาร์ดิโอเผาผลาญ',
+        exercises: [
+          { name: 'Push-ups', sets: 3, reps: 'Max', weight: 'Bodyweight' },
+          { name: 'Dumbbell Bicep Curls', sets: 3, reps: '12', weight: '5 kg' },
+          { name: 'Tricep Rope Pushdown', sets: 3, reps: '15', weight: '15 kg' },
+          { name: 'Incline Treadmill Walk', sets: 1, reps: '30 นาที', weight: 'ความชัน 10 / ความเร็ว 4.5' }
+        ]
+      }
+    ];
+
+    let calendarAssignments = JSON.parse(localStorage.getItem('ginfit_calendar')) || {
+      'Mon': 'tpl-a',
+      'Wed': 'tpl-b',
+      'Fri': 'tpl-c'
+    };
+
+    let state = JSON.parse(localStorage.getItem('ginfit_state')) || {
+      foodLogs: [
+        { id: 1, time: '08:30', name: 'แซนด์วิชทูน่า + กาแฟดำ', kcal: 280, p: 22, c: 30, f: 6 },
+        { id: 2, time: '12:15', name: 'ข้าวอกไก่ย่างผักต้ม', kcal: 420, p: 38, c: 45, f: 8 }
+      ],
+      currentWeight: 54.5,
+      targetWeight: 52.0,
+      waterIntake: 1250,
+      dailySteps: 6420,
+      isFasting: true,
+      measurements: { waist: 26.5, hips: 35.0, thighs: 20.5 },
+      weeklyKcalBank: [1350, 1420, 1380, 1290, 1400, 1450, 700],
+      weightHistory: [55.8, 55.4, 55.1, 54.9, 54.7, 54.6, 54.5],
+      selectedCalendarDay: 'Mon'
+    };
+
+    const mascotQuotes = [
+      "ลุยกันต่อเลย! วันนี้กินโปรตีนให้ถึงเป้าหมายนะคนเก่ง 💪",
+      "อย่าลืมจิบน้ำเรื่อยๆ ระหว่างวันด้วยน้า 💧",
+      "ลดน้ำหนักแบบไม่เครียด กินอาหารที่มีประโยชน์นะ 🥗",
+      "การเดินขยับร่างกายบ่อยๆ ช่วยเผาผลาญไขมันดีมากเลย! 🚶‍♀️"
+    ];
+
+    let weightChart = null;
+
+    window.onload = function() {
+      renderDashboard();
+      renderFoodLogs();
+      renderWeeklyBank();
+      renderWorkoutTemplates();
+      renderCalendarGrid();
+      initChart();
+      calculateLiveTdee();
+    };
+
+    function saveAllState() {
+      localStorage.setItem('ginfit_targets', JSON.stringify(TARGETS));
+      localStorage.setItem('ginfit_templates', JSON.stringify(workoutTemplates));
+      localStorage.setItem('ginfit_calendar', JSON.stringify(calendarAssignments));
+      localStorage.setItem('ginfit_state', JSON.stringify(state));
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('text-blue-500');
+        btn.classList.add('text-slate-400');
+      });
+
+      const activeNav = document.getElementById(`nav-${tabId}`);
+      if (activeNav) {
+        activeNav.classList.remove('text-slate-400');
+        activeNav.classList.add('text-blue-500');
+      }
+
+      if (tabId === 'analytics') {
+        setTimeout(() => { if (weightChart) weightChart.update(); }, 100);
+      }
+    }
+
+    function switchWorkoutSubTab(sub) {
+      if (sub === 'templates') {
+        document.getElementById('workout-sub-templates').classList.remove('hidden');
+        document.getElementById('workout-sub-calendar').classList.add('hidden');
+        document.getElementById('sub-btn-templates').className = "flex-1 py-2 rounded-xl text-xs font-bold bg-blue-500 text-white transition shadow-sm";
+        document.getElementById('sub-btn-calendar').className = "flex-1 py-2 rounded-xl text-xs font-bold text-slate-500 hover:text-slate-800 transition";
+      } else {
+        document.getElementById('workout-sub-templates').classList.add('hidden');
+        document.getElementById('workout-sub-calendar').classList.remove('hidden');
+        document.getElementById('sub-btn-templates').className = "flex-1 py-2 rounded-xl text-xs font-bold text-slate-500 hover:text-slate-800 transition";
+        document.getElementById('sub-btn-calendar').className = "flex-1 py-2 rounded-xl text-xs font-bold bg-blue-500 text-white transition shadow-sm";
+      }
+    }
+
+    function triggerMascotQuote() {
+      const randomQuote = mascotQuotes[Math.floor(Math.random() * mascotQuotes.length)];
+      document.getElementById('mascot-text').innerText = `"${randomQuote}"`;
+    }
+
+    // TDEE & Goal Calculation Formula
+    function calculateLiveTdee() {
+      const gender = document.getElementById('calc-gender').value;
+      const age = parseFloat(document.getElementById('calc-age').value) || 26;
+      const height = parseFloat(document.getElementById('calc-height').value) || 162;
+      const weight = parseFloat(document.getElementById('calc-weight').value) || 54.5;
+      const activity = parseFloat(document.getElementById('calc-activity').value) || 1.375;
+      const goal = document.getElementById('calc-goal').value;
+
+      let bmr = (10 * weight) + (6.25 * height) - (5 * age);
+      bmr += (gender === 'male') ? 5 : -161;
+
+      const tdee = bmr * activity;
+      let targetKcal = tdee;
+      if (goal === 'lose') targetKcal -= 500;
+      else if (goal === 'gain') targetKcal += 300;
+
+      targetKcal = Math.max(1200, Math.round(targetKcal));
+
+      document.getElementById('preview-bmr').innerText = `${Math.round(bmr).toLocaleString()} kcal`;
+      document.getElementById('preview-tdee').innerText = `${Math.round(tdee).toLocaleString()} kcal`;
+      document.getElementById('preview-target').innerText = `${targetKcal.toLocaleString()} kcal`;
+
+      return { bmr, tdee, targetKcal, weight };
+    }
+
+    function applyTdeeSettings() {
+      const res = calculateLiveTdee();
+      TARGETS.kcal = res.targetKcal;
+      TARGETS.protein = Math.round(res.weight * 2.2);
+      TARGETS.fat = Math.round((res.targetKcal * 0.25) / 9);
+      TARGETS.carbs = Math.round((res.targetKcal - (TARGETS.protein * 4) - (TARGETS.fat * 9)) / 4);
+
+      document.getElementById('tdee-val-display').innerText = Math.round(res.tdee).toLocaleString();
+      saveAllState();
+      renderDashboard();
+      closeModal('modal-settings');
+    }
+
+    function renderDashboard() {
+      let totals = state.foodLogs.reduce((acc, item) => {
+        acc.kcal += item.kcal;
+        acc.p += item.p;
+        acc.c += item.c;
+        acc.f += item.f;
+        return acc;
+      }, { kcal: 0, p: 0, c: 0, f: 0 });
+
+      state.weeklyKcalBank[6] = totals.kcal;
+
+      document.getElementById('current-kcal').innerText = totals.kcal.toLocaleString();
+      document.getElementById('target-kcal').innerText = TARGETS.kcal.toLocaleString();
+
+      const circle = document.getElementById('kcal-progress-circle');
+      const maxDash = 163;
+      const progressPercent = Math.min(totals.kcal / TARGETS.kcal, 1);
+      circle.style.strokeDashoffset = maxDash - (maxDash * progressPercent);
+
+      document.getElementById('p-curr').innerText = totals.p;
+      document.getElementById('p-target').innerText = TARGETS.protein;
+      document.getElementById('p-rem').innerText = Math.max(0, TARGETS.protein - totals.p);
+
+      document.getElementById('c-curr').innerText = totals.c;
+      document.getElementById('c-target').innerText = TARGETS.carbs;
+      document.getElementById('c-rem').innerText = Math.max(0, TARGETS.carbs - totals.c);
+
+      document.getElementById('f-curr').innerText = totals.f;
+      document.getElementById('f-target').innerText = TARGETS.fat;
+      document.getElementById('f-rem').innerText = Math.max(0, TARGETS.fat - totals.f);
+
+      // Water & Steps
+      document.getElementById('water-curr').innerText = state.waterIntake;
+      document.getElementById('water-target').innerText = TARGETS.water;
+      document.getElementById('water-progress-bar').style.width = `${Math.min(100, (state.waterIntake / TARGETS.water) * 100)}%`;
+      document.getElementById('dash-steps-val').innerText = state.dailySteps.toLocaleString();
+
+      // Weight & Analytics
+      document.getElementById('dash-weight-val').innerText = state.currentWeight;
+      document.getElementById('analytics-curr-weight').innerText = state.currentWeight;
+      document.getElementById('measure-waist').innerText = state.measurements.waist;
+      document.getElementById('measure-hips').innerText = state.measurements.hips;
+      document.getElementById('measure-thighs').innerText = state.measurements.thighs;
+
+      // Dashboard mini food list
+      const dashFoodList = document.getElementById('dashboard-food-list');
+      if (state.foodLogs.length === 0) {
+        dashFoodList.innerHTML = `<p class="text-xs text-slate-400 text-center py-2">ยังไม่มีการบันทึกอาหารวันนี้</p>`;
+      } else {
+        dashFoodList.innerHTML = state.foodLogs.slice(-3).reverse().map(item => `
+          <div class="flex items-center justify-between p-2 bg-slate-50 rounded-2xl text-xs">
+            <div class="flex items-center gap-2">
+              <span class="text-slate-400 text-[10px] font-mono">${item.time}</span>
+              <span class="font-semibold text-slate-700">${item.name}</span>
+            </div>
+            <span class="font-bold text-blue-600">${item.kcal} kcal</span>
+          </div>
+        `).join('');
+      }
+
+      renderWeeklyBank();
+      saveAllState();
+    }
+
+    function renderWeeklyBank() {
+      const days = ['จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.', 'อา.'];
+      const targetWeekly = TARGETS.kcal * 7;
+      const consumedWeekly = state.weeklyKcalBank.reduce((a, b) => a + b, 0);
+      const remainingBank = targetWeekly - consumedWeekly;
+
+      const bankStatusTag = document.getElementById('bank-status-tag');
+      if (remainingBank >= 0) {
+        bankStatusTag.className = "text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full";
+        bankStatusTag.innerText = `เหลือเก็บ +${remainingBank} kcal`;
+      } else {
+        bankStatusTag.className = "text-[10px] font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full";
+        bankStatusTag.innerText = `เกินงบ ${Math.abs(remainingBank)} kcal`;
+      }
+
+      const barsContainer = document.getElementById('weekly-bank-bars');
+      barsContainer.innerHTML = state.weeklyKcalBank.map((kcal, idx) => {
+        const heightPct = Math.min(100, Math.round((kcal / TARGETS.kcal) * 100));
+        const isOver = kcal > TARGETS.kcal;
+        const barColor = isOver ? 'bg-rose-400' : 'bg-blue-400';
+        return `
+          <div class="flex flex-col items-center gap-1">
+            <div class="w-full bg-slate-100 h-16 rounded-lg relative flex items-end p-0.5">
+              <div class="w-full ${barColor} rounded-md transition-all duration-500" style="height: ${heightPct}%;"></div>
+            </div>
+            <span class="text-slate-400">${days[idx]}</span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Workout Planner Rendering
+    function renderWorkoutTemplates() {
+      const container = document.getElementById('templates-list-container');
+      container.innerHTML = workoutTemplates.map(tpl => `
+        <div class="bg-white rounded-3xl p-4 soft-card border border-slate-100 space-y-2">
+          <div class="flex justify-between items-start">
+            <div>
+              <h3 class="font-bold text-slate-800 text-sm">${tpl.name}</h3>
+              <span class="text-[10px] text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full font-medium mt-1 inline-block">${tpl.tag}</span>
+            </div>
+            <span class="text-xs font-bold text-slate-400">${tpl.exercises.length} ท่า</span>
+          </div>
+
+          <div class="space-y-1.5 pt-1">
+            ${tpl.exercises.map(ex => `
+              <div class="flex justify-between items-center bg-slate-50 p-2 rounded-xl text-xs">
+                <span class="font-medium text-slate-700">${ex.name}</span>
+                <span class="text-slate-500 font-mono text-[11px]">${ex.sets} เซ็ต x ${ex.reps} <span class="text-blue-500 font-bold">(${ex.weight})</span></span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderCalendarGrid() {
+      const days = [
+        { code: 'Mon', label: 'จันทร์' },
+        { code: 'Tue', label: 'อังคาร' },
+        { code: 'Wed', label: 'พุธ' },
+        { code: 'Thu', label: 'พฤหัส' },
+        { code: 'Fri', label: 'ศุกร์' },
+        { code: 'Sat', label: 'เสาร์' },
+        { code: 'Sun', label: 'อาทิตย์' }
+      ];
+
+      const grid = document.getElementById('calendar-days-grid');
+      grid.innerHTML = days.map(d => {
+        const assignedTplId = calendarAssignments[d.code];
+        const assignedTpl = workoutTemplates.find(t => t.id === assignedTplId);
+        const isSelected = state.selectedCalendarDay === d.code;
+
+        return `
+          <div onclick="selectCalendarDay('${d.code}')" class="p-2 rounded-2xl cursor-pointer transition border ${isSelected ? 'bg-blue-500 text-white border-blue-500 shadow-md' : 'bg-slate-50 text-slate-700 border-slate-100 hover:bg-slate-100'} flex flex-col justify-between min-h-[70px]">
+            <span class="font-bold text-[11px]">${d.label}</span>
+            ${assignedTpl ? `
+              <span class="text-[9px] font-extrabold ${isSelected ? 'text-blue-100' : 'text-blue-600'} bg-white/20 px-1 py-0.5 rounded truncate">
+                ${assignedTpl.name.split(' ')[0]}
+              </span>
+            ` : `
+              <button onclick="event.stopPropagation(); openAssignModal('${d.code}')" class="text-[10px] ${isSelected ? 'text-white' : 'text-slate-400'} font-bold">
+                + เพิ่ม
+              </button>
+            `}
+          </div>
+        `;
+      }).join('');
+
+      renderSelectedDayWorkout();
+    }
+
+    function selectCalendarDay(dayCode) {
+      state.selectedCalendarDay = dayCode;
+      renderCalendarGrid();
+    }
+
+    function renderSelectedDayWorkout() {
+      const dayCode = state.selectedCalendarDay;
+      const tplId = calendarAssignments[dayCode];
+      const tpl = workoutTemplates.find(t => t.id === tplId);
+      const detailBox = document.getElementById('calendar-workout-detail');
+
+      if (!tpl) {
+        detailBox.innerHTML = `
+          <div class="text-center py-6 text-slate-400 text-xs">
+            <p class="font-bold text-slate-600 mb-1">ยังไม่มีโปรแกรมสำหรับวัน ${dayCode}</p>
+            <button onclick="openAssignModal('${dayCode}')" class="mt-2 px-4 py-2 bg-blue-500 text-white font-bold text-xs rounded-xl glow-btn">
+              + เลือกโปรแกรมใส่ในวันนี้
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      detailBox.innerHTML = `
+        <div class="flex justify-between items-center mb-3">
+          <div>
+            <h4 class="font-bold text-slate-800 text-sm">${tpl.name}</h4>
+            <p class="text-[10px] text-slate-400">โปรแกรมสำหรับวัน ${dayCode}</p>
+          </div>
+          <button onclick="openAssignModal('${dayCode}')" class="text-xs text-blue-500 font-bold hover:underline">
+            เปลี่ยนโปรแกรม
+          </button>
+        </div>
+
+        <div class="space-y-2">
+          ${tpl.exercises.map((ex, idx) => `
+            <div class="bg-slate-50 p-3 rounded-2xl border border-slate-100 space-y-2">
+              <div class="flex justify-between items-center">
+                <span class="font-bold text-xs text-slate-800">${idx + 1}. ${ex.name}</span>
+                <span class="text-[10px] text-blue-600 font-semibold bg-blue-50 px-2 py-0.5 rounded-full">${ex.weight}</span>
+              </div>
+              
+              <!-- Interactive Sets Checklist -->
+              <div class="flex gap-2 pt-1">
+                ${Array.from({ length: ex.sets }).map((_, sIdx) => `
+                  <button onclick="this.classList.toggle('bg-emerald-500'); this.classList.toggle('text-white');" class="flex-1 py-1 bg-white border border-slate-200 rounded-xl text-[10px] font-bold text-slate-600 hover:border-emerald-400 transition">
+                    Set ${sIdx + 1}
+                  </button>
+                `).join('')}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function openAssignModal(dayCode) {
+      state.selectedCalendarDay = dayCode;
+      document.getElementById('assign-day-name').innerText = `(${dayCode})`;
+      const optionsContainer = document.getElementById('assign-routine-options');
+
+      optionsContainer.innerHTML = workoutTemplates.map(tpl => `
+        <button onclick="assignTemplateToDay('${tpl.id}')" class="w-full p-3 bg-slate-50 hover:bg-blue-50 border border-slate-200 hover:border-blue-300 rounded-2xl text-left transition flex justify-between items-center">
+          <div>
+            <p class="font-bold text-xs text-slate-800">${tpl.name}</p>
+            <p class="text-[10px] text-slate-400 mt-0.5">${tpl.exercises.length} ท่าซ้อม</p>
+          </div>
+          <i class="fa-solid fa-chevron-right text-xs text-slate-400"></i>
+        </button>
+      `).join('') + `
+        <button onclick="assignTemplateToDay(null)" class="w-full p-3 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-2xl text-xs font-bold text-center transition mt-2">
+          ยกเลิกโปรแกรมวันเปิดพัก
+        </button>
+      `;
+
+      document.getElementById('modal-assign-routine').classList.remove('hidden');
+    }
+
+    // Modal Builder logic for New Routine
+    function openCreateTemplateModal() {
+      document.getElementById('new-routine-name').value = '';
+      document.getElementById('new-routine-tag').value = '';
+      const container = document.getElementById('exercise-rows-container');
+      container.innerHTML = '';
+      addExerciseRow('Barbell Squat', 4, '8-10', '30 kg');
+      addExerciseRow('Dumbbell Press', 3, '10-12', '12 kg');
+      document.getElementById('modal-create-routine').classList.remove('hidden');
+    }
+
+    function addExerciseRow(defaultName = '', defaultSets = 3, defaultReps = '10-12', defaultWeight = '10 kg') {
+      const container = document.getElementById('exercise-rows-container');
+      const rowId = `ex-row-${Date.now()}-${Math.random()}`;
+      
+      const rowDiv = document.createElement('div');
+      rowDiv.id = rowId;
+      rowDiv.className = 'bg-slate-50 p-3 rounded-2xl border border-slate-200 space-y-2 relative';
+      rowDiv.innerHTML = `
+        <div class="flex justify-between items-center">
+          <input type="text" placeholder="ชื่อท่าซ้อม (เช่น Bench Press)" value="${defaultName}" class="ex-name w-full bg-white px-2.5 py-1.5 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:border-blue-500 mr-2">
+          <button onclick="document.getElementById('${rowId}').remove()" class="text-rose-400 hover:text-rose-600 px-1">
+            <i class="fa-solid fa-trash text-xs"></i>
+          </button>
+        </div>
+        <div class="grid grid-cols-3 gap-2">
+          <div>
+            <span class="text-[10px] text-slate-400">จำนวน Set</span>
+            <input type="number" value="${defaultSets}" class="ex-sets w-full bg-white px-2 py-1 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700">
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400">Reps/ครั้ง</span>
+            <input type="text" value="${defaultReps}" class="ex-reps w-full bg-white px-2 py-1 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700">
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400">น้ำหนัก (Kg)</span>
+            <input type="text" value="${defaultWeight}" class="ex-weight w-full bg-white px-2 py-1 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700">
+          </div>
+        </div>
+      `;
+      container.appendChild(rowDiv);
+    }
+
+    function saveNewRoutine() {
+      const name = document.getElementById('new-routine-name').value.trim() || 'Custom Routine';
+      const tag = document.getElementById('new-routine-tag').value.trim() || 'สร้างเอง';
+      
+      const rows = document.querySelectorAll('#exercise-rows-container > div');
+      const exercises = [];
+
+      rows.forEach(row => {
+        const exName = row.querySelector('.ex-name').value.trim();
+        const sets = parseInt(row.querySelector('.ex-sets').value) || 3;
+        const reps = row.querySelector('.ex-reps').value.trim() || '10-12';
+        const weight = row.querySelector('.ex-weight').value.trim() || '10 kg';
+
+        if (exName) {
+          exercises.push({ name: exName, sets, reps, weight });
+        }
+      });
+
+      if (exercises.length === 0) {
+        exercises.push({ name: 'ท่าซ้อมทั่วไป', sets: 3, reps: '10', weight: 'Bodyweight' });
+      }
+
+      const newTpl = {
+        id: `tpl-custom-${Date.now()}`,
+        name,
+        tag,
+        exercises
+      };
+
+      workoutTemplates.push(newTpl);
+      saveAllState();
+      renderWorkoutTemplates();
+      closeModal('modal-create-routine');
+    }
+
+    function assignTemplateToDay(tplId) {
+      const dayCode = state.selectedCalendarDay;
+      if (tplId) {
+        calendarAssignments[dayCode] = tplId;
+      } else {
+        delete calendarAssignments[dayCode];
+      }
+      saveAllState();
+      renderCalendarGrid();
+      closeModal('modal-assign-routine');
+    }
+
+    // Water & Fasting
+    function addWater(amount) {
+      state.waterIntake += amount;
+      renderDashboard();
+    }
+
+    function toggleFasting() {
+      state.isFasting = !state.isFasting;
+      const badge = document.getElementById('fasting-status-badge');
+      const btn = document.getElementById('btn-fasting-toggle');
+      if (state.isFasting) {
+        badge.innerText = 'กำลังอดอาหาร';
+        badge.className = 'text-[9px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full font-semibold border border-emerald-500/30';
+        btn.innerText = 'เริ่มช่วงทานอาหาร';
+      } else {
+        badge.innerText = 'ช่วงทานอาหาร';
+        badge.className = 'text-[9px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded-full font-semibold border border-amber-500/30';
+        btn.innerText = 'เริ่มอดอาหาร';
+      }
+      saveAllState();
+    }
+
+    function cloneYesterdayMeals() {
+      const yesterdayMock = [
+        { name: 'กาแฟดำ (Non-sugar)', kcal: 15, p: 0, c: 2, f: 0 },
+        { name: 'อกไก่นุ่ม + ข้าวกล้อง', kcal: 380, p: 35, c: 40, f: 5 }
+      ];
+
+      const now = new Date();
+      const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+      yesterdayMock.forEach(meal => {
+        state.foodLogs.push({ id: Date.now() + Math.random(), time: timeStr, ...meal });
+      });
+
+      renderDashboard();
+      renderFoodLogs();
+    }
+
+    function renderFoodLogs() {
+      const fullList = document.getElementById('full-food-list');
+      if (state.foodLogs.length === 0) {
+        fullList.innerHTML = `<p class="text-xs text-slate-400 text-center py-6">ไม่มีรายการมื้ออาหาร</p>`;
+        return;
+      }
+
+      fullList.innerHTML = state.foodLogs.slice().reverse().map(item => `
+        <div class="bg-white p-4 rounded-3xl soft-card border border-slate-100/80 flex items-center justify-between">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] bg-slate-100 text-slate-500 font-bold px-2 py-0.5 rounded-full">${item.time}</span>
+              <h4 class="font-bold text-slate-800 text-sm">${item.name}</h4>
+            </div>
+            <div class="flex items-center gap-2 text-[11px] text-slate-400">
+              <span class="text-sky-600 bg-sky-50 px-1.5 py-0.5 rounded-md font-medium">P: ${item.p}g</span>
+              <span class="text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded-md font-medium">C: ${item.c}g</span>
+              <span class="text-rose-600 bg-rose-50 px-1.5 py-0.5 rounded-md font-medium">F: ${item.f}g</span>
+            </div>
+          </div>
+          <div class="text-right">
+            <span class="font-extrabold text-blue-600 text-base">${item.kcal}</span>
+            <span class="text-[10px] text-slate-400 block font-medium">kcal</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function handleImageSelect(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('food-image-preview').src = e.target.result;
+        document.getElementById('upload-placeholder').classList.add('hidden');
+        document.getElementById('image-preview-container').classList.remove('hidden');
+
+        const btn = document.getElementById('btn-analyze');
+        btn.disabled = false;
+        btn.classList.remove('bg-slate-300');
+        btn.classList.add('bg-blue-500', 'hover:bg-blue-600', 'glow-btn');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function resetImageScan() {
+      document.getElementById('food-image-input').value = '';
+      document.getElementById('upload-placeholder').classList.remove('hidden');
+      document.getElementById('image-preview-container').classList.add('hidden');
+      document.getElementById('ai-result-box').classList.add('hidden');
+
+      const btn = document.getElementById('btn-analyze');
+      btn.disabled = true;
+      btn.classList.add('bg-slate-300');
+      btn.classList.remove('bg-blue-500', 'hover:bg-blue-600', 'glow-btn');
+    }
+
+    async function analyzeFoodImage() {
+      const imageInput = document.getElementById('food-image-input');
+      const file = imageInput.files[0];
+      if (!file) return;
+
+      const btn = document.getElementById('btn-analyze');
+      btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> <span>กำลังวิเคราะห์...</span>`;
+      btn.disabled = true;
+
+      setTimeout(() => {
+        state.lastScannedMeal = {
+          name: 'สเต๊กไก่ย่าง + ผักสลัด',
+          kcal: 420,
+          p: 38,
+          c: 18,
+          f: 12
+        };
+        btn.innerHTML = `<span>วิเคราะห์สำเร็จ</span> <i class="fa-solid fa-check"></i>`;
+        displayAiResult();
+      }, 1200);
+    }
+
+    function displayAiResult() {
+      const res = state.lastScannedMeal;
+      document.getElementById('res-food-name').innerText = res.name;
+      document.getElementById('res-food-kcal').innerText = res.kcal;
+      document.getElementById('res-food-p').innerText = res.p;
+      document.getElementById('res-food-c').innerText = res.c;
+      document.getElementById('res-food-f').innerText = res.f;
+
+      document.getElementById('ai-result-box').classList.remove('hidden');
+    }
+
+    function addAiResultToLog() {
+      if (!state.lastScannedMeal) return;
+
+      const now = new Date();
+      const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+      state.foodLogs.push({
+        id: Date.now(),
+        time: timeStr,
+        name: state.lastScannedMeal.name,
+        kcal: state.lastScannedMeal.kcal,
+        p: state.lastScannedMeal.p,
+        c: state.lastScannedMeal.c,
+        f: state.lastScannedMeal.f
+      });
+
+      renderDashboard();
+      renderFoodLogs();
+      resetImageScan();
+      switchTab('dashboard');
+    }
+
+    // Modal Helpers
+    function openSettingsModal() { document.getElementById('modal-settings').classList.remove('hidden'); }
+    function openManualMealModal() { document.getElementById('modal-meal').classList.remove('hidden'); }
+    function openWeightModal() { document.getElementById('modal-weight').classList.remove('hidden'); }
+    function openStepsModal() { document.getElementById('modal-steps').classList.remove('hidden'); }
+    function openBodyMeasureModal() { document.getElementById('modal-measure').classList.remove('hidden'); }
+    function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+    function saveManualMeal() {
+      const name = document.getElementById('input-meal-name').value || 'มื้ออาหารทั่วไป';
+      const kcal = parseInt(document.getElementById('input-meal-kcal').value) || 300;
+      const p = parseInt(document.getElementById('input-meal-p').value) || 20;
+      const c = parseInt(document.getElementById('input-meal-c').value) || 30;
+      const f = parseInt(document.getElementById('input-meal-f').value) || 8;
+
+      const now = new Date();
+      const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+      state.foodLogs.push({ id: Date.now(), time: timeStr, name, kcal, p, c, f });
+      renderDashboard();
+      renderFoodLogs();
+      closeModal('modal-meal');
+    }
+
+    function saveWeightLog() {
+      const w = parseFloat(document.getElementById('input-weight-val').value);
+      if (w) {
+        state.currentWeight = w;
+        state.weightHistory[state.weightHistory.length - 1] = w;
+        renderDashboard();
+        if (weightChart) {
+          weightChart.data.datasets[0].data = state.weightHistory;
+          weightChart.update();
+        }
+      }
+      closeModal('modal-weight');
+    }
+
+    function saveStepsLog() {
+      const steps = parseInt(document.getElementById('input-steps-val').value);
+      if (steps) {
+        state.dailySteps = steps;
+        renderDashboard();
+      }
+      closeModal('modal-steps');
+    }
+
+    function initChart() {
+      const ctx = document.getElementById('weightChart').getContext('2d');
+      weightChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.', 'อา.'],
+          datasets: [{
+            label: 'น้ำหนัก (kg)',
+            data: state.weightHistory,
+            borderColor: '#a855f7',
+            backgroundColor: 'rgba(168, 85, 247, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4,
+            pointRadius: 4,
+            pointBackgroundColor: '#a855f7'
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { min: 50, max: 58, grid: { color: '#f1f5f9' } },
+            x: { grid: { display: false } }
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>
